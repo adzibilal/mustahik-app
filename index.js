@@ -7,6 +7,7 @@ var validator = require('express-validator');
 require('dotenv').config();
 // import controller
 var AuthController = require('./controllers/AuthController');
+var ProgramController = require('./controllers/ProgramController');
 
 // import Router file
 var pageRouter = require('./routers/route');
@@ -47,6 +48,7 @@ app.get('/layouts/', function (req, res) {
 // apply controller
 AuthController(app);
 
+
 //For set layouts of html view
 var expressLayouts = require('express-ejs-layouts');
 app.set('views', path.join(__dirname, 'views'));
@@ -55,6 +57,8 @@ app.use(expressLayouts);
 
 // Define All Route 
 pageRouter(app);
+
+ProgramController(app);
 
 app.get('/', function (req, res) {
   res.redirect('/');
