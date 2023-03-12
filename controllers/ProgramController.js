@@ -1,5 +1,7 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+
 const db = require('../db');
 
 module.exports = function (app) {
@@ -18,9 +20,14 @@ module.exports = function (app) {
                 console.log(err);
                 res.status(500).send('Internal Server Error');
             } else {
+                const data = req.session; // Mendapatkan data session
                 res.render('Program/index', {
                     programs: result,
                     title: 'Master Program',
+                    data: data.user,
+                    message: req.flash('message'),
+                    error: req.flash('error'),
+                    success: req.flash('success'),
                 });
             }
         });
@@ -28,12 +35,23 @@ module.exports = function (app) {
 
     // Tampilkan form tambah program
     app.get('/program/add', isUserAllowed, function (req, res) {
-        res.render('Program/add', { title: 'Tambah Program' });
+        const data = req.session; // Mendapatkan data session
+        console.log('data', data);
+        res.render('Program/add', {
+            title: 'Tambah Program',
+            data: data.user,
+            message: req.flash('message'),
+            error: req.flash('error'),
+            success: req.flash('success'),
+        });
     });
 
     // Proses tambah program
     app.post('/program/add', isUserAllowed, function (req, res) {
         const { program_name, program_category } = req.body;
+        console.log('req.body', req.body);
+        console.log('name', program_name);
+        console.log('category', program_category);
         db.query(
             'INSERT INTO master_program (program_name, program_category) VALUES (?, ?)',
             [program_name, program_category],
@@ -42,6 +60,7 @@ module.exports = function (app) {
                     console.log(err);
                     res.status(500).send('Internal Server Error');
                 } else {
+                    req.flash('success', 'Tambah Program Berhasil');
                     res.redirect('/program');
                 }
             }
@@ -80,6 +99,7 @@ module.exports = function (app) {
                     console.log(err);
                     res.status(500).send('Internal Server Error');
                 } else {
+                    req.flash('success', 'Edit Program Berhasil');
                     res.redirect('/program');
                 }
             }
@@ -97,6 +117,7 @@ module.exports = function (app) {
                     console.log(err);
                     res.status(500).send('Internal Server Error');
                 } else {
+                    req.flash('success', 'Hapus Program Berhasil');
                     res.redirect('/program');
                 }
             }

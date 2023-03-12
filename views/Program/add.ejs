@@ -1,0 +1,87 @@
+<%- contentFor('HeaderCss') %> 
+<link href="public/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+
+<%- contentFor('breadcrumb') %>
+
+<div class="row">
+    <div class="col-12">
+        <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between"
+        >
+            <h4 class="mb-sm-0">Tambah Program</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                        <a href="program">Program</a>
+                    </li>
+                    <li class="breadcrumb-item active">Tambah Program</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('body') %>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <form class="custom-validation" action="/program/add" method="POST">
+                    <div class="mb-3">
+                        <label>Nama Program</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            required
+                            placeholder="Masukan Nama Program"
+                            name="program_name" id="program_name" 
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kategori Program</label>
+                                <select class="form-control select2"  name="program_category" id="program_category" required>
+                                    <option>Pilih Kategori</option>
+                                    <option value="pendidikan">Pendidikan</option>
+                                    <option value="kesehatan">Kesehatan</option>
+                                    <option value="ekonomi">Ekonomi</option>
+                                    <option value="dakwah">Dakwah</option>
+                                    <option value="kemanusiaan">Kemanusiaan</option>
+                                    
+                                </select>
+                    </div>
+                    <div class="mb-0">
+                        <div>
+                            <button
+                                type="submit"
+                                class="btn btn-primary waves-effect waves-light me-1"
+                            >
+                                Submit
+                            </button>
+                            <button
+                                type="reset"
+                                class="btn btn-secondary waves-effect"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<%- contentFor('FooterJs') %>
+
+<script src="public/assets/libs/parsleyjs/parsley.min.js"></script>
+
+<script src="public/assets/js/pages/form-validation.init.js"></script>
+<script src="public/assets/libs/select2/js/select2.min.js"></script>
+
+<script src="public/assets/js/pages/form-advanced.init.js"></script>
+
+<%- contentFor('BottomJs') %>

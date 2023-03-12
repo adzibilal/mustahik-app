@@ -1,0 +1,90 @@
+<%- contentFor('HeaderCss') %>
+
+<link href="public/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+
+<%- contentFor('breadcrumb') %>
+
+<div class="row">
+    <div class="col-12">
+        <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between"
+        >
+            <h4 class="mb-sm-0">Edit Program</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                        <a href="program">Program</a>
+                    </li>
+                    <li class="breadcrumb-item active">Edit Program</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('body') %>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <form class="custom-validation" action="/program/edit/<%= program.program_id %>" method="POST">
+                    <div class="mb-3">
+                        <label>Nama Program</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            required
+                            placeholder="Masukan Nama Program"
+                            name="program_name" id="program_name" 
+                            value="<%= program.program_name %>"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kategori Program</label>
+                                <select class="form-control select2"  name="program_category" id="program_category" required>
+                                    <option>Pilih Kategori</option>
+                                    <option value="pendidikan" <%= program.program_category === 'pendidikan' ? 'selected' : '' %>>Pendidikan</option>
+                                    <option value="kesehatan" <%= program.program_category === 'kesehatan' ? 'selected' : '' %>>Kesehatan</option>
+                                    <option value="ekonomi" <%= program.program_category === 'ekonomi' ? 'selected' : '' %>>Ekonomi</option>
+                                    <option value="dakwah" <%= program.program_category === 'dakwah' ? 'selected' : '' %>>Dakwah</option>
+                                    <option value="kemanusiaan" <%= program.program_category === 'kemanusiaan' ? 'selected' : '' %>>Kemanusiaan</option>
+                                    
+                                </select>
+                    </div>
+                    <div class="mb-0">
+                        <div>
+                            <button
+                                type="submit"
+                                class="btn btn-primary waves-effect waves-light me-1"
+                            >
+                                Update
+                            </button>
+                            <a
+                                href="/program"
+                                class="btn btn-secondary waves-effect"
+                            >
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+
+<!-- end row -->
+
+<%- contentFor('FooterJs') %>
+
+<script src="public/assets/libs/parsleyjs/parsley.min.js"></script>
+
+<script src="public/assets/js/pages/form-validation.init.js"></script>
+
+<script src="public/assets/libs/select2/js/select2.min.js"></script>
+
+<script src="public/assets/js/pages/form-advanced.init.js"></script>
+
+<%- contentFor('BottomJs') %>

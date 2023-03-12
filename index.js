@@ -8,6 +8,7 @@ require('dotenv').config();
 // import controller
 var AuthController = require('./controllers/AuthController');
 var ProgramController = require('./controllers/ProgramController');
+var MustahikPeroranganController = require('./controllers/MustahikPeroranganController');
 
 // import Router file
 var pageRouter = require('./routers/route');
@@ -19,6 +20,7 @@ var i18n = require("i18n-express");
 app.use(bodyParser.json());
 var urlencodeParser = bodyParser.urlencoded({ extended: true });
 const db = require('./db');
+
 
 app.use(session({
   key: 'user_sid',
@@ -40,6 +42,13 @@ app.use(i18n({
 
 
 app.use('/public', express.static('public'));
+app.use('/program/public', express.static('public'));
+app.use('/program/edit/public', express.static('public'));
+app.use('/mustahik-perorangan/public', express.static('public'));
+app.use('/mustahik-perorangan/edit/public', express.static('public'));
+
+
+// app.use(express.static(__dirname + '/public'))
 
 app.get('/layouts/', function (req, res) {
   res.render('view');
@@ -54,11 +63,12 @@ var expressLayouts = require('express-ejs-layouts');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
-
+app.use(urlencodeParser)
 // Define All Route 
 pageRouter(app);
 
 ProgramController(app);
+MustahikPeroranganController(app);
 
 app.get('/', function (req, res) {
   res.redirect('/');

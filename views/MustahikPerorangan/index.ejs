@@ -1,0 +1,179 @@
+<%- contentFor('HeaderCss') %>
+
+<!-- DataTables -->
+<link
+    href="public/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+<link
+    href="public/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+<link
+    href="public/assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+
+<!-- Responsive datatable examples -->
+<link
+    href="public/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+
+<%- contentFor('breadcrumb') %>
+
+<div class="row">
+    <div class="col-12">
+        <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between"
+        >
+            <h4 class="mb-sm-0">Master Program</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item active">Program</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('body') %>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <% if(error.length> 0) { %>
+                    <div class="alert alert-danger " role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
+                <% if(message.length> 0) { %>
+                    <div class="alert alert-info" role="alert">
+                        <%= message %>
+                    </div>
+                <% } %>
+                <% if(success.length> 0) { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="mdi mdi-check-all me-2"></i>
+                        <%= success %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" fdprocessedid="vytlv"></button>
+                    </div>
+                <% } %>
+                <a href="mustahik-perorangan/add" class="btn btn-primary waves-effect waves-light" fdprocessedid="jzw0r">
+                    Tambah <i class="fas fa-pencil-alt align-middle ms-2"></i> 
+                </a>
+                <br><br>
+                <table
+                    id="datatable"
+                    class="table table-bordered dt-responsive nowrap"
+                    style="
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                        width: 100%;
+                    "
+                >
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Fullname</th>
+                            <th>KTP Number</th>
+                            <th>Tanggal Lahir</th>
+                            <th>Tempat Lahir</th>
+                            <th>Jumlah Tanggungan</th>
+                            <th>Penghasilan</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Alamat</th>
+                            <th>Negara</th>
+                            <th>Provinsi</th>
+                            <th>Kota/Kabupaten</th>
+                            <th>Kecamatan</th>
+                            <th>Kelurahan/Desa</th>
+                            <th>Status Menikah</th>
+                            <th>Jenis Mustahik</th>
+                            <th>Asnaf Mustahik</th>
+                            <th>Foto</th>
+                            <th>KTP File</th>
+                            <th>KK File</th>
+                            <th>SKTM File</th>
+                            <th>Dokumen Lainnya</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% mustahik_perorangan.forEach((mst, index) => { %>
+                        <tr>
+                            <td><%= index+1 %></td>
+                            <td><%= mst.fullname %></td>
+                            <td><%= mst.ktp_number %></td>
+                            <td><%= mst.tgl_lahir.toDateString() %></td>
+                            <td><%= mst.tempat_lahir %></td>
+                            <td><%= mst.jumlah_tanggungan %></td>
+                            <td>Rp <%= mst.penghasilan %></td>
+                            <td><%= mst.gender %></td>
+                            <td><%= mst.alamat %></td>
+                            <td><%= mst.negara %></td>
+                            <td><%= mst.provinsi %></td>
+                            <td><%= mst.kota_kab %></td>
+                            <td><%= mst.kec %></td>
+                            <td><%= mst.kel_desa %></td>
+                            <td><%= mst.status_menikah %></td>
+                            <td><%= mst.jenis_mustahik %></td>
+                            <td><%= mst.asnaf_mustahik %></td>
+                            <td><img src="<%= mst.url_photo %>" alt="Foto mustahik" height="50px" width="50px"></td>
+                            <td><a href="<%= mst.url_ktp_file %>" target="_blank">Lihat file</a></td>
+                            <td><a href="<%= mst.url_kk_file %>" target="_blank">Lihat file</a></td>
+                            <td><a href="<%= mst.url_sktm_file %>" target="_blank">Lihat file</a></td>
+                            <td><a href="<%= mst.url_docs_lain %>" target="_blank">Lihat file</a></td>
+                            <td>
+                                <a href="/mustahik-perorangan/edit/<%= mst.mustahik_perorangan_id %>" class="btn btn-warning btn-sm waves-effect waves-light" fdprocessedid="jzw0r">
+                                    Edit <i class="fas fa-pencil-alt align-middle ms-2"></i> 
+                                </a>
+                                <form method="post" action="/mustahik-perorangan/delete/<%= mst.mustahik_perorangan_id %>">
+                                    <button type="submit" class="btn btn-danger btn-sm waves-effect waves-light" fdprocessedid="jzw0r" onclick="return confirm('Kamu yakin ingin menghapus mustahik ini?')">
+                                        Delete <i class="fas fa-trash align-middle ms-2"></i> 
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<%- contentFor('FooterJs') %>
+
+<!-- Required datatable js -->
+<script src="public/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="public/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="public/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="public/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="public/assets/libs/jszip/jszip.min.js"></script>
+<script src="public/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="public/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="public/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="public/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="public/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<script src="public/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="public/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="public/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="public/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="public/assets/js/pages/datatables.init.js"></script>
+
+<%- contentFor('BottomJs') %>

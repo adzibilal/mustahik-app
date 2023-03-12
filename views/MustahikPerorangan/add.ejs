@@ -1,0 +1,352 @@
+<%- contentFor('HeaderCss') %>
+<link
+    href="public/assets/libs/select2/css/select2.min.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+
+<%- contentFor('breadcrumb') %>
+
+<div class="row">
+    <div class="col-12">
+        <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between"
+        >
+            <h4 class="mb-sm-0">Tambah Mustahik Perorangan</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                        <a href="mustahik-perorangan">Mustahik Perorangan</a>
+                    </li>
+                    <li class="breadcrumb-item active">Tambah Mustahik Perorangan</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('body') %>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <form
+                    class="custom-validation"
+                    action="/mustahik-perorangan/add"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >   
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Fullname</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    required
+                                    placeholder="Masukan Fullname"
+                                    name="fullname"
+                                    id="fullname"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">KTP Number</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    required
+                                    placeholder="Masukan KTP Number"
+                                    name="ktp_number"
+                                    id="ktp_number"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Tanggal Lahir</label>
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    required
+                                    name="tgl_lahir"
+                                    id="tgl_lahir"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Tempat Lahir</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    required
+                                    placeholder="Masukan Tempat Lahir"
+                                    name="tempat_lahir"
+                                    id="tempat_lahir"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Had Kipayah</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    required
+                                    placeholder="Masukan Had Kipayah"
+                                    name="had_kipayah"
+                                    id="had_kipayah"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Jumlah Tanggungan</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    required
+                                    placeholder="Masukan Jumlah Tanggungan"
+                                    name="jumlah_tanggungan"
+                                    id="jumlah_tanggungan"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Penghasilan</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    required
+                                    placeholder="Masukan Penghasilan"
+                                    name="penghasilan"
+                                    id="penghasilan"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Gender</label>
+                                <select
+                                    class="form-control"
+                                    name="gender"
+                                    id="gender"
+                                    required
+                                >
+                                    <option>Pilih Gender</option>
+                                    <option value="pria">Pria</option>
+                                    <option value="wanita">Wanita</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Alamat</label>
+                                <textarea
+                                    class="form-control"
+                                    name="alamat"
+                                    id="alamat"
+                                    required
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Provinsi</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="provinsi"
+                                    id="provinsi"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Kota/Kabupaten</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="kota_kab"
+                                    id="kota_kab"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Kecamatan</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="kecamatan"
+                                    id="kecamatan"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Kelurahan/Desa</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="kel_desa"
+                                    id="kel_desa"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Status Menikah</label>
+                                <select
+                                    class="form-control"
+                                    name="status_menikah"
+                                    id="status_menikah"
+                                    required
+                                >
+                                    <option>Pilih Status Menikah</option>
+                                    <option value="menikah">Menikah</option>
+                                    <option value="belum_menikah">Belum Menikah</option>
+                                    <option value="janda">Janda</option>
+                                    <option value="duda">Duda</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Mustahik</label>
+                                <select
+                                    class="form-control"
+                                    name="jenis_mustahik"
+                                    id="jenis_mustahik"
+                                    required
+                                >
+                                    <option>Pilih Jenis Mustahik</option>
+                                    <option value="distribusi">Distribusi</option>
+                                    <option value="pemberdayaan">Pemberdayaan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Asnaf Mustahik</label>
+                                <select
+                                    class="form-control"
+                                    name="asnaf_mustahik"
+                                    id="asnaf_mustahik"
+                                    required
+                                >
+                                    <option>Pilih Asnaf Mustahik</option>
+                                    <option value="fakir">Fakir</option>
+                                    <option value="miskin">Miskin</option>
+                                    <option value="fisabilillah">Fisabilillah</option>
+                                    <option value="amil">Amil</option>
+                                    <option value="gharimin">Gharimin</option>
+                                    <option value="musafir">Musafir</option>
+                                    <option value="mualaf">Mualaf</option>
+                                    <option value="hamba sahaya">Hamba Sahaya</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Foto</label>
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    name="url_photo"
+                                    id="url_photo"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">KTP</label>
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    name="url_ktp_file"
+                                    id="url_ktp_file"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">KK</label>
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    name="url_kk_file"
+                                    id="url_kk_file"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">SKTM</label>
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    name="url_sktm_file"
+                                    id="url_sktm_file"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Dokumen Lainnya</label>
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    name="url_docs_lain"
+                                    id="url_docs_lain"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-0">
+                        <div>
+                            <button
+                                type="submit"
+                                class="btn btn-primary waves-effect waves-light me-1"
+                            >
+                                Submit
+                            </button>
+                            <button
+                                type="reset"
+                                class="btn btn-secondary waves-effect"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<%- contentFor('FooterJs') %>
+
+<script src="public/assets/libs/parsleyjs/parsley.min.js"></script>
+
+<script src="public/assets/js/pages/form-validation.init.js"></script>
+<script src="public/assets/libs/select2/js/select2.min.js"></script>
+
+<script src="public/assets/js/pages/form-advanced.init.js"></script>
+
+<%- contentFor('BottomJs') %>

@@ -19,7 +19,6 @@ module.exports = function (app) {
             title: 'Dashboard',
             data: data.user, // Mengirimkan data session ke view template
         };
-        console.log('data', data.user);
         res.render('Dashboard/index');
     });
 

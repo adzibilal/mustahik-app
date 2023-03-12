@@ -48,6 +48,27 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <% if(error.length> 0) { %>
+                    <div class="alert alert-danger " role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
+                <% if(message.length> 0) { %>
+                    <div class="alert alert-info" role="alert">
+                        <%= message %>
+                    </div>
+                <% } %>
+                <% if(success.length> 0) { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="mdi mdi-check-all me-2"></i>
+                        <%= success %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" fdprocessedid="vytlv"></button>
+                    </div>
+                <% } %>
+                <a href="program/add" class="btn btn-primary waves-effect waves-light" fdprocessedid="jzw0r">
+                    Tambah <i class="fas fa-pencil-alt align-middle ms-2"></i> 
+                </a>
+                <br><br>
                 <table
                     id="datatable"
                     class="table table-bordered dt-responsive nowrap"
@@ -59,25 +80,27 @@
                 >
                     <thead>
                         <tr>
-                            <th>ID Program</th>
+                            <th>No</th>
                             <th>Nama Program</th>
                             <th>Jenis Program</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% programs.forEach(program => { %>
+                        <% programs.forEach((program, index) => { %>
                         <tr>
-                            <td><%= program.program_id %></td>
+                            <td><%= index+1 %></td>
                             <td><%= program.program_name %></td>
                             <td><%= program.program_category %></td>
                             <td>
-                                <button type="button" class="btn btn-warning btn-sm waves-effect waves-light" fdprocessedid="jzw0r">
+                                <a href="/program/edit/<%= program.program_id %>" class="btn btn-warning btn-sm waves-effect waves-light" fdprocessedid="jzw0r">
                                     Edit <i class="fas fa-pencil-alt align-middle ms-2"></i> 
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" fdprocessedid="jzw0r">
-                                    Delete <i class="fas fa-trash align-middle ms-2"></i> 
-                                </button>
+                                </a>
+                                <form method="post" action="/program/delete/<%= program.program_id %>">
+                                    <button type="submit" class="btn btn-danger btn-sm waves-effect waves-light" fdprocessedid="jzw0r" onclick="return confirm('Kamu yakin ingin menghapus program ini?')">
+                                        Delete <i class="fas fa-trash align-middle ms-2"></i> 
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         <% }); %>
