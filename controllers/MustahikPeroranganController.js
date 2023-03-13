@@ -47,17 +47,32 @@ module.exports = function (app) {
     });
 
     // POST add data
-    app.post(
-        '/mustahik-perorangan/add',
-        upload.fields([
-            { name: 'url_photo', maxCount: 1 },
-            { name: 'url_ktp_file', maxCount: 1 },
-            { name: 'url_kk_file', maxCount: 1 },
-            { name: 'url_sktm_file', maxCount: 1 },
-            { name: 'url_docs_lain', maxCount: 10 },
-        ]),
-        (req, res) => {
-            const {
+    app.post('/mustahik-perorangan/add', (req, res) => {
+        const {
+            fullname,
+            ktp_number,
+            tgl_lahir,
+            tempat_lahir,
+            had_kipayah,
+            jumlah_tanggungan,
+            penghasilan,
+            gender,
+            alamat,
+            negara,
+            provinsi,
+            kota_kab,
+            kec,
+            kel_desa,
+            status_menikah,
+            jenis_mustahik,
+            asnaf_mustahik,
+        } = req.body;
+
+        console.log('req.body', req.body)
+
+        db.query(
+            'INSERT INTO mustahik_perorangan (fullname, ktp_number, tgl_lahir, tempat_lahir, had_kipayah, jumlah_tanggungan, penghasilan, gender, alamat, negara, provinsi, kota_kab, kec, kel_desa, status_menikah, jenis_mustahik, asnaf_mustahik) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [
                 fullname,
                 ktp_number,
                 tgl_lahir,
@@ -75,48 +90,102 @@ module.exports = function (app) {
                 status_menikah,
                 jenis_mustahik,
                 asnaf_mustahik,
-            } = req.body;
+            ],
+            (err, result) => {
+                if (err) throw err;
+                req.flash('success', 'Tambah Mustahik Berhasil');
+                res.redirect('/mustahik-perorangan');
+            }
+        );
+    });
 
-            const {
-                url_photo,
-                url_ktp_file,
-                url_kk_file,
-                url_sktm_file,
-                url_docs_lain,
-            } = req.files;
+    // GET edit data
+    app.get('/mustahik-perorangan/edit/:id', (req, res) => {
+        const id = req.params.id;
 
-            db.query(
-                'INSERT INTO mustahik_perorangan (fullname, ktp_number, tgl_lahir, tempat_lahir, had_kipayah, jumlah_tanggungan, penghasilan, gender, alamat, negara, provinsi, kota_kab, kec, kel_desa, status_menikah, jenis_mustahik, asnaf_mustahik, url_photo, url_ktp_file, url_kk_file, url_sktm_file, url_docs_lain) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [
-                    fullname,
-                    ktp_number,
-                    tgl_lahir,
-                    tempat_lahir,
-                    had_kipayah,
-                    jumlah_tanggungan,
-                    penghasilan,
-                    gender,
-                    alamat,
-                    negara,
-                    provinsi,
-                    kota_kab,
-                    kec,
-                    kel_desa,
-                    status_menikah,
-                    jenis_mustahik,
-                    asnaf_mustahik,
-                    url_photo[0].filename,
-                    url_ktp_file[0].filename,
-                    url_kk_file[0].filename,
-                    url_sktm_file[0].filename,
-                    JSON.stringify(url_docs_lain.map((file) => file.filename)),
-                ],
-                (err, result) => {
-                    if (err) throw err;
-                    req.flash('success', 'Tambah Mustahik Berhasil');
+        db.query(
+            'SELECT * FROM mustahik_perorangan WHERE mustahik_perorangan_id = ?',
+            [id],
+            (err, result) => {
+                if (err) throw err;
+
+                console.log('result', result);
+                res.render('MustahikPerorangan/edit', {
+                    title: 'Edit Mustahik Perorangan',
+                    data: result[0],
+                });
+            }
+        );
+    });
+
+    // POST update data
+    app.post('/mustahik-perorangan/edit/:id', (req, res) => {
+        const id = req.params.id;
+        const {
+            fullname,
+            ktp_number,
+            tgl_lahir,
+            tempat_lahir,
+            had_kipayah,
+            jumlah_tanggungan,
+            penghasilan,
+            gender,
+            alamat,
+            negara,
+            provinsi,
+            kota_kab,
+            kec,
+            kel_desa,
+            status_menikah,
+            jenis_mustahik,
+            asnaf_mustahik,
+        } = req.body;
+
+        db.query(
+            'UPDATE mustahik_perorangan SET fullname = ?, ktp_number = ?, tgl_lahir = ?, tempat_lahir = ?, had_kipayah = ?, jumlah_tanggungan = ?, penghasilan = ?, gender = ?, alamat = ?, negara = ?, provinsi = ?, kota_kab = ?, kec = ?, kel_desa = ?, status_menikah = ?, jenis_mustahik = ?, asnaf_mustahik = ? WHERE mustahik_perorangan_id = ?',
+            [
+                fullname,
+                ktp_number,
+                tgl_lahir,
+                tempat_lahir,
+                had_kipayah,
+                jumlah_tanggungan,
+                penghasilan,
+                gender,
+                alamat,
+                negara,
+                provinsi,
+                kota_kab,
+                kec,
+                kel_desa,
+                status_menikah,
+                jenis_mustahik,
+                asnaf_mustahik,
+                id,
+            ],
+            (err, result) => {
+                if (err) throw err;
+                req.flash('success', 'Update Mustahik Berhasil');
+                res.redirect('/mustahik-perorangan');
+            }
+        );
+    });
+
+     // Hapus mustahik-perorangan
+     app.post('/mustahik-perorangan/delete/:id', isUserAllowed, function (req, res) {
+        const mustahikId = req.params.id;
+        db.query(
+            'DELETE FROM mustahik_perorangan WHERE mustahik_perorangan_id = ?',
+            [mustahikId],
+            (err, result) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).send('Internal Server Error');
+                } else {
+                    req.flash('success', 'Hapus Mustahik Berhasil');
                     res.redirect('/mustahik-perorangan');
                 }
-            );
-        }
-    );
+            }
+        );
+    });
 };

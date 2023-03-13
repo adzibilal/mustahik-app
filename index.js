@@ -48,7 +48,7 @@ app.use('/mustahik-perorangan/public', express.static('public'));
 app.use('/mustahik-perorangan/edit/public', express.static('public'));
 
 
-// app.use(express.static(__dirname + '/public'))
+// app.use(express.static(path.join(__dirname, '/public')))
 
 app.get('/layouts/', function (req, res) {
   res.render('view');
@@ -64,6 +64,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.use(urlencodeParser)
+
+app.use(express.urlencoded({extended: false}))
 // Define All Route 
 pageRouter(app);
 

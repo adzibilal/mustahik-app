@@ -12,14 +12,14 @@
         <div
             class="page-title-box d-sm-flex align-items-center justify-content-between"
         >
-            <h4 class="mb-sm-0">Edit Mustahik Perorangan</h4>
+            <h4 class="mb-sm-0">Tambah Mustahik Perorangan</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item">
                         <a href="mustahik-perorangan">Mustahik Perorangan</a>
                     </li>
-                    <li class="breadcrumb-item active">Edit Mustahik Perorangan</li>
+                    <li class="breadcrumb-item active">Tambah Mustahik Perorangan</li>
                 </ol>
             </div>
         </div>
@@ -34,10 +34,12 @@
             <div class="card-body">
                 <form
                     class="custom-validation"
-                    action="/mustahik-perorangan/edit/<%= data.mustahik_perorangan_id %>"
+                    action="/mustahik-perorangan/add"
                     method="POST"
+                    enctype="multipart/form-data"
                 >   
                     <div class="row">
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Fullname</label>
@@ -48,7 +50,6 @@
                                     placeholder="Masukan Fullname"
                                     name="fullname"
                                     id="fullname"
-                                    value="<%= data.fullname %>"
                                 />
                             </div>
                         </div>
@@ -62,7 +63,6 @@
                                     placeholder="Masukan KTP Number"
                                     name="ktp_number"
                                     id="ktp_number"
-                                    value="<%= data.ktp_number %>"
                                 />
                             </div>
                         </div>
@@ -75,7 +75,6 @@
                                     required
                                     name="tgl_lahir"
                                     id="tgl_lahir"
-                                    value="<%= data.tgl_lahir.toISOString().slice(0, 10) %>"
                                 />
                             </div>
                         </div>
@@ -89,7 +88,6 @@
                                     placeholder="Masukan Tempat Lahir"
                                     name="tempat_lahir"
                                     id="tempat_lahir"
-                                    value="<%= data.tempat_lahir %>"
                                 />
                             </div>
                         </div>
@@ -103,7 +101,6 @@
                                     placeholder="Masukan Had Kipayah"
                                     name="had_kipayah"
                                     id="had_kipayah"
-                                    value="<%= data.had_kipayah %>"
                                 />
                             </div>
                         </div>
@@ -117,7 +114,6 @@
                                     placeholder="Masukan Jumlah Tanggungan"
                                     name="jumlah_tanggungan"
                                     id="jumlah_tanggungan"
-                                    value="<%= data.jumlah_tanggungan %>"
                                 />
                             </div>
                         </div>
@@ -131,7 +127,6 @@
                                     placeholder="Masukan Penghasilan"
                                     name="penghasilan"
                                     id="penghasilan"
-                                    value="<%= data.penghasilan %>"
                                 />
                             </div>
                         </div>
@@ -145,8 +140,8 @@
                                     required
                                 >
                                     <option>Pilih Gender</option>
-                                    <option value="pria" <%= data.gender === 'pria' ? 'selected' : '' %>>Pria</option>
-                                    <option value="wanita" <%= data.gender === 'wanita' ? 'selected' : '' %>>Wanita</option>
+                                    <option value="pria">Pria</option>
+                                    <option value="wanita">Wanita</option>
                                 </select>
                             </div>
                         </div>
@@ -158,20 +153,7 @@
                                     name="alamat"
                                     id="alamat"
                                     required
-                                ><%= data.alamat %></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Negara</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    name="negara"
-                                    id="negara"
-                                    required
-                                    value="<%= data.negara %>"
-                                />
+                                ></textarea>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -183,8 +165,6 @@
                                     name="provinsi"
                                     id="provinsi"
                                     required
-                                    value="<%= data.provinsi %>"
-
                                 />
                             </div>
                         </div>
@@ -197,7 +177,6 @@
                                     name="kota_kab"
                                     id="kota_kab"
                                     required
-                                    value="<%= data.kota_kab %>"
                                 />
                             </div>
                         </div>
@@ -207,10 +186,9 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    name="kec"
-                                    id="kec"
+                                    name="kecamatan"
+                                    id="kecamatan"
                                     required
-                                    value="<%= data.kec %>"
                                 />
                             </div>
                         </div>
@@ -223,7 +201,6 @@
                                     name="kel_desa"
                                     id="kel_desa"
                                     required
-                                    value="<%= data.kel_desa %>"
                                 />
                             </div>
                         </div>
@@ -237,10 +214,10 @@
                                     required
                                 >
                                     <option>Pilih Status Menikah</option>
-                                    <option value="menikah" <%= data.status_menikah === 'menikah' ? 'selected' : '' %>>Menikah</option>
-                                    <option value="belum_menikah" <%= data.status_menikah === 'belum_menikah' ? 'selected' : '' %>>Belum Menikah</option>
-                                    <option value="janda" <%= data.status_menikah === 'janda' ? 'selected' : '' %>>Janda</option>
-                                    <option value="duda" <%= data.status_menikah === 'duda' ? 'selected' : '' %>>Duda</option>
+                                    <option value="menikah">Menikah</option>
+                                    <option value="belum_menikah">Belum Menikah</option>
+                                    <option value="janda">Janda</option>
+                                    <option value="duda">Duda</option>
                                 </select>
                             </div>
                         </div>
@@ -254,8 +231,8 @@
                                     required
                                 >
                                     <option>Pilih Jenis Mustahik</option>
-                                    <option value="distribusi" <%= data.jenis_mustahik === 'distribusi' ? 'selected' : '' %>>Distribusi</option>
-                                    <option value="pemberdayaan" <%= data.jenis_mustahik === 'pemberdayaan' ? 'selected' : '' %>>Pemberdayaan</option>
+                                    <option value="distribusi">Distribusi</option>
+                                    <option value="pemberdayaan">Pemberdayaan</option>
                                 </select>
                             </div>
                         </div>
@@ -269,14 +246,14 @@
                                     required
                                 >
                                     <option>Pilih Asnaf Mustahik</option>
-                                    <option value="fakir" <%= data.asnaf_mustahik === 'fakir' ? 'selected' : '' %>>Fakir</option>
-                                    <option value="miskin" <%= data.asnaf_mustahik === 'miskin' ? 'selected' : '' %>>Miskin</option>
-                                    <option value="fisabilillah" <%= data.asnaf_mustahik === 'fisabilillah' ? 'selected' : '' %>>Fisabilillah</option>
-                                    <option value="amil" <%= data.asnaf_mustahik === 'amil' ? 'selected' : '' %>>Amil</option>
-                                    <option value="gharimin" <%= data.asnaf_mustahik === 'gharimin' ? 'selected' : '' %>>Gharimin</option>
-                                    <option value="musafir" <%= data.asnaf_mustahik === 'musafir' ? 'selected' : '' %>>Musafir</option>
-                                    <option value="mualaf" <%= data.asnaf_mustahik === 'mualaf' ? 'selected' : '' %>>Mualaf</option>
-                                    <option value="hamba sahaya" <%= data.asnaf_mustahik === 'hamba sahaya' ? 'selected' : '' %>>Hamba Sahaya</option>
+                                    <option value="fakir">Fakir</option>
+                                    <option value="miskin">Miskin</option>
+                                    <option value="fisabilillah">Fisabilillah</option>
+                                    <option value="amil">Amil</option>
+                                    <option value="gharimin">Gharimin</option>
+                                    <option value="musafir">Musafir</option>
+                                    <option value="mualaf">Mualaf</option>
+                                    <option value="hamba sahaya">Hamba Sahaya</option>
                                 </select>
                             </div>
                         </div>
@@ -287,7 +264,6 @@
                                     type="file"
                                     class="form-control"
                                     name="url_photo"
-                                    disabled
                                     id="url_photo"
                                 />
                             </div>
@@ -299,8 +275,8 @@
                                     type="file"
                                     class="form-control"
                                     name="url_ktp_file"
-                                    disabled
                                     id="url_ktp_file"
+                                    required
                                 />
                             </div>
                         </div>
@@ -311,8 +287,8 @@
                                     type="file"
                                     class="form-control"
                                     name="url_kk_file"
-                                    disabled
                                     id="url_kk_file"
+                                    required
                                 />
                             </div>
                         </div>
@@ -323,7 +299,6 @@
                                     type="file"
                                     class="form-control"
                                     name="url_sktm_file"
-                                    disabled
                                     id="url_sktm_file"
                                 />
                             </div>
@@ -335,7 +310,6 @@
                                     type="file"
                                     class="form-control"
                                     name="url_docs_lain"
-                                    disabled
                                     id="url_docs_lain"
                                 />
                             </div>

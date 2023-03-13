@@ -19,7 +19,9 @@
                     <li class="breadcrumb-item">
                         <a href="mustahik-perorangan">Mustahik Perorangan</a>
                     </li>
-                    <li class="breadcrumb-item active">Tambah Mustahik Perorangan</li>
+                    <li class="breadcrumb-item active">
+                        Tambah Mustahik Perorangan
+                    </li>
                 </ol>
             </div>
         </div>
@@ -36,10 +38,8 @@
                     class="custom-validation"
                     action="/mustahik-perorangan/add"
                     method="POST"
-                    enctype="multipart/form-data"
-                >   
+                >
                     <div class="row">
-
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Fullname</label>
@@ -106,7 +106,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Jumlah Tanggungan</label>
+                                <label class="form-label"
+                                    >Jumlah Tanggungan</label
+                                >
                                 <input
                                     type="number"
                                     class="form-control"
@@ -158,6 +160,18 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
+                                <label class="form-label">Negara</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="negara"
+                                    id="negara"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
                                 <label class="form-label">Provinsi</label>
                                 <input
                                     type="text"
@@ -186,8 +200,8 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    name="kecamatan"
-                                    id="kecamatan"
+                                    name="kec"
+                                    id="kec"
                                     required
                                 />
                             </div>
@@ -215,7 +229,9 @@
                                 >
                                     <option>Pilih Status Menikah</option>
                                     <option value="menikah">Menikah</option>
-                                    <option value="belum_menikah">Belum Menikah</option>
+                                    <option value="belum_menikah">
+                                        Belum Menikah
+                                    </option>
                                     <option value="janda">Janda</option>
                                     <option value="duda">Duda</option>
                                 </select>
@@ -231,8 +247,12 @@
                                     required
                                 >
                                     <option>Pilih Jenis Mustahik</option>
-                                    <option value="distribusi">Distribusi</option>
-                                    <option value="pemberdayaan">Pemberdayaan</option>
+                                    <option value="distribusi">
+                                        Distribusi
+                                    </option>
+                                    <option value="pemberdayaan">
+                                        Pemberdayaan
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -248,12 +268,16 @@
                                     <option>Pilih Asnaf Mustahik</option>
                                     <option value="fakir">Fakir</option>
                                     <option value="miskin">Miskin</option>
-                                    <option value="fisabilillah">Fisabilillah</option>
+                                    <option value="fisabilillah">
+                                        Fisabilillah
+                                    </option>
                                     <option value="amil">Amil</option>
                                     <option value="gharimin">Gharimin</option>
                                     <option value="musafir">Musafir</option>
                                     <option value="mualaf">Mualaf</option>
-                                    <option value="hamba sahaya">Hamba Sahaya</option>
+                                    <option value="hamba sahaya">
+                                        Hamba Sahaya
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -265,6 +289,7 @@
                                     class="form-control"
                                     name="url_photo"
                                     id="url_photo"
+                                    disabled
                                 />
                             </div>
                         </div>
@@ -276,7 +301,7 @@
                                     class="form-control"
                                     name="url_ktp_file"
                                     id="url_ktp_file"
-                                    required
+                                    disabled
                                 />
                             </div>
                         </div>
@@ -288,7 +313,7 @@
                                     class="form-control"
                                     name="url_kk_file"
                                     id="url_kk_file"
-                                    required
+                                    disabled
                                 />
                             </div>
                         </div>
@@ -300,17 +325,21 @@
                                     class="form-control"
                                     name="url_sktm_file"
                                     id="url_sktm_file"
+                                    disabled
                                 />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Dokumen Lainnya</label>
+                                <label class="form-label"
+                                    >Dokumen Lainnya</label
+                                >
                                 <input
                                     type="file"
                                     class="form-control"
                                     name="url_docs_lain"
                                     id="url_docs_lain"
+                                    disabled
                                 />
                             </div>
                         </div>
