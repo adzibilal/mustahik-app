@@ -9,6 +9,7 @@ require('dotenv').config();
 var AuthController = require('./controllers/AuthController');
 var ProgramController = require('./controllers/ProgramController');
 var MustahikPeroranganController = require('./controllers/MustahikPeroranganController');
+var SantunanController = require('./controllers/SantunanController');
 
 // import Router file
 var pageRouter = require('./routers/route');
@@ -46,6 +47,8 @@ app.use('/program/public', express.static('public'));
 app.use('/program/edit/public', express.static('public'));
 app.use('/mustahik-perorangan/public', express.static('public'));
 app.use('/mustahik-perorangan/edit/public', express.static('public'));
+app.use('/santunan/public', express.static('public'));
+app.use('/santunan/edit/public', express.static('public'));
 
 
 // app.use(express.static(path.join(__dirname, '/public')))
@@ -71,6 +74,7 @@ pageRouter(app);
 
 ProgramController(app);
 MustahikPeroranganController(app);
+SantunanController(app);
 
 app.get('/', function (req, res) {
   res.redirect('/');

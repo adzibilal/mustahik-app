@@ -1,0 +1,109 @@
+<%- contentFor('HeaderCss') %>
+<link
+    href="public/assets/libs/select2/css/select2.min.css"
+    rel="stylesheet"
+    type="text/css"
+/>
+
+<%- contentFor('breadcrumb') %>
+
+<div class="row">
+    <div class="col-12">
+        <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between"
+        >
+            <h4 class="mb-sm-0">Tambah Program</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                        <a href="program">Program</a>
+                    </li>
+                    <li class="breadcrumb-item active">Tambah Program</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('body') %>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <form
+                    class="custom-validation"
+                    action="/santunan/add"
+                    method="POST"
+                >
+                    <div class="mb-3">
+                        <label for="mustahik_id" class="form-label"
+                            >Mustahik</label
+                        >
+                        <select
+                            class="form-control select2"
+                            name="mustahik_id"
+                            id="mustahik_id"
+                            required
+                        >
+                            <option value="">Pilih Mustahik</option>
+                            <% mustahik.forEach(function(m){ %>
+                            <option value="<%= m.mustahik_perorangan_id %>">
+                                <%= m.fullname %>
+                            </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="program_id" class="form-label"
+                            >Program</label
+                        >
+                        <select
+                            class="form-control select2"
+                            name="program_id"
+                            id="program_id"
+                            required
+                        >
+                            <option value="">Pilih Program</option>
+                            <% program.forEach(function(p){ %>
+                            <option value="<%= p.program_id %>">
+                                <%= p.program_name %>
+                            </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nominal" class="form-label">Nominal</label>
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="nominal"
+                            id="nominal"
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        class="btn btn-primary waves-effect waves-light me-1"
+                    >
+                        Simpan
+                    </button>
+                    <a href="/santunan" class="btn btn-secondary waves-effect">
+                        Batal
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- contentFor('FooterJs') %>
+
+<script src="public/assets/libs/parsleyjs/parsley.min.js"></script>
+
+<script src="public/assets/js/pages/form-validation.init.js"></script>
+<script src="public/assets/libs/select2/js/select2.min.js"></script>
+
+<script src="public/assets/js/pages/form-advanced.init.js"></script>
+
+<%- contentFor('BottomJs') %>
