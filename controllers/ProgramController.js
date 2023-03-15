@@ -78,8 +78,10 @@ module.exports = function (app) {
                     console.log(err);
                     res.status(500).send('Internal Server Error');
                 } else {
+                    const data = req.session; // Mendapatkan data session
                     res.render('Program/edit', {
                         title: 'Edit Program',
+                        data: data.user,
                         program: result[0],
                     });
                 }

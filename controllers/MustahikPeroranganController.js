@@ -108,11 +108,13 @@ module.exports = function (app) {
             [id],
             (err, result) => {
                 if (err) throw err;
+                const data = req.session; // Mendapatkan data session
 
                 console.log('result', result);
                 res.render('MustahikPerorangan/edit', {
                     title: 'Edit Mustahik Perorangan',
-                    data: result[0],
+                    mustahik: result[0],
+                    data: data.user,
                 });
             }
         );

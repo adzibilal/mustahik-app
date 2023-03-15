@@ -120,6 +120,7 @@ module.exports = function (app) {
                                     if (err) throw err;
 
                                     const program = rows;
+                                    const data = req.session; // Mendapatkan data session
 
                                     // Render halaman dengan data santunan, mustahik, dan program yang telah diambil
                                     res.render('Santunan/edit', {
