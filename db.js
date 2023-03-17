@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const host = process.env.DB_HOST;
 const user = process.env.DB_USER;
