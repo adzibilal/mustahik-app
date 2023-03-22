@@ -51,7 +51,7 @@ chart.render();
 // donut chart
 
 var options = {
-    series: [42, 26, 15],
+    series: [100, 26, 15],
     chart: {
         height: 250,
         type: 'donut',

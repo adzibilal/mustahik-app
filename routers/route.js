@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var urlencodeParser = bodyParser.urlencoded({ extended: false });
 var validator = require('express-validator');
+const db = require('../db');
 
 module.exports = function (app) {
     function isUserAllowed(req, res, next) {
@@ -15,11 +16,38 @@ module.exports = function (app) {
 
     app.get('/', isUserAllowed, function (req, res) {
         const data = req.session; // Mendapatkan data session
-        res.locals = {
-            title: 'Dashboard',
-            data: data.user, // Mengirimkan data session ke view template
-        };
-        res.render('Dashboard/index');
+
+        db.query('select * from view_dashboard_card_1', (err, rows, field) => {
+            if (err) throw err;
+            const report1 = rows;
+
+            db.query(
+                'select * from view_dashboard_donuts_1',
+                function (err, rows, fields) {
+                    if (err) throw err;
+
+                    const report2 = rows;
+                    // console.log('report2', report2)
+
+                    db.query('select * from view_dashboard_bar_1', function (err, rows, fields) {
+                        if (err) throw err;
+
+                        const report3 = rows;
+                        console.log('report3', report3)
+
+                        const data = req.session; // Mendapatkan data session
+                        res.locals = {
+                            title: 'Dashboard',
+                            data: data.user,
+                            report1: report1,
+                            report2: report2,
+                            report3: report3,
+                        };
+                        res.render('Dashboard/index');
+                    });
+                }
+            );
+        });
     });
 
     // Layouts
