@@ -1,5 +1,9 @@
-<%- contentFor('HeaderCss') %> 
-<link href="public/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+<%- contentFor('HeaderCss') %>
+<link
+    href="public/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css"
+    rel="stylesheet"
+    type="text/css"
+/>
 
 <%- contentFor('breadcrumb') %>
 
@@ -134,46 +138,20 @@
                 <div id="indo-vectormap" style="height: 300px"></div>
 
                 <div class="row justify-content-center">
-                    <div class="col-xl-5 col-md-6">
+                    <% report4.forEach((item, index) => { %>
+                    <div class="col-md-4">
                         <div class="mt-2">
                             <div class="clearfix py-2">
                                 <h5 class="float-end font-size-16 m-0">
-                                    $ 2542
+                                    <%= item.jumlah_mustahik %>
                                 </h5>
                                 <p class="text-muted mb-0 text-truncate">
-                                    California :
-                                </p>
-                            </div>
-                            <div class="clearfix py-2">
-                                <h5 class="float-end font-size-16 m-0">
-                                    $ 2245
-                                </h5>
-                                <p class="text-muted mb-0 text-truncate">
-                                    Nevada :
+                                    <%= item.kota_kab %> <small><%= item.provinsi %></small>
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-5 offset-xl-1 col-md-6">
-                        <div class="mt-2">
-                            <div class="clearfix py-2">
-                                <h5 class="float-end font-size-16 m-0">
-                                    $ 2156
-                                </h5>
-                                <p class="text-muted mb-0 text-truncate">
-                                    Montana :
-                                </p>
-                            </div>
-                            <div class="clearfix py-2">
-                                <h5 class="float-end font-size-16 m-0">
-                                    $ 1845
-                                </h5>
-                                <p class="text-muted mb-0 text-truncate">
-                                    Texas :
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
                 <div class="text-center mt-4">
                     <a href="#" class="btn btn-primary btn-sm">Learn more</a>
@@ -1548,42 +1526,116 @@
 </script>
 
 <script>
-    var mustahikmap = {
-        1: 16,
-        2: 11,
-        3: 158,
-        4: 6,
-        5: 19,
-        6: 8,
-        7: 12,
-        8: 10,
-        9: 14,
-        10: 200,
-        11: 8,
-        12: 10,
-        13: 7,
-        14: 11,
-        15: 6,
-        16: 10,
-        17: 5,
-        18: 8,
-        19: 7,
-        20: 8,
-        21: 5,
-        22: 4,
-        23: 5,
-        24: 4,
-        25: 4,
-        26: 3,
-        27: 3,
-        28: 3,
-        29: 3,
-        30: 2,
-        31: 2,
-        32: 2,
-        33: 2,
-        34: 2,
+    console.error('report4', JSON.parse('<%- JSON.stringify(report4) %>'));
+
+    const report4 = JSON.parse('<%- JSON.stringify(report4) %>');
+    const codeProvince = {
+        1: 'Aceh',
+        2: 'Bali',
+        3: 'Bangka-Belitung',
+        4: 'Banten',
+        5: 'Bengkulu',
+        6: 'Gorontalo',
+        7: 'Irian Jaya Barat',
+        8: 'DKI Jakarta',
+        9: 'Jambi',
+        10: 'Jawa Barat',
+        11: 'Jawa Tengah',
+        12: 'Jawa Timur',
+        13: 'Kalimantan Barat',
+        14: 'Kalimantan Selatan',
+        15: 'Kalimantan Tengah',
+        16: 'Kalimantan Timur',
+        17: 'Kalimantan Utara',
+        18: 'Kepulauan Riau',
+        19: 'Lampung',
+        20: 'Maluku Utara',
+        21: 'Maluku',
+        22: 'NTB',
+        23: 'NTT',
+        24: 'Papua',
+        25: 'Riau',
+        26: 'Sulawesi Barat',
+        27: 'Sulawesi Selatan',
+        28: 'Sulawesi Tengah',
+        29: 'Sulawesi Tenggara',
+        30: 'Sulawesi Utara',
+        31: 'Sumatera Barat',
+        32: 'Sumatera Selatan',
+        33: 'Sumatera Utara',
+        34: 'Yogyakarta',
     };
+    const groupedData = {};
+
+    // Iterasi setiap objek dalam array data
+    report4.forEach((item) => {
+        const provinsi = item.provinsi;
+        const jumlahMustahik = item.jumlah_mustahik;
+
+        // Jika objek provinsi belum ada dalam groupedData, buat objek baru
+        if (!groupedData[provinsi]) {
+            groupedData[provinsi] = { provinsi, jumlahMustahik };
+        }
+        // Jika objek provinsi sudah ada dalam groupedData, tambahkan jumlah mustahik
+        else {
+            groupedData[provinsi].jumlahMustahik += jumlahMustahik;
+        }
+    });
+
+    let mustahikmap = {};
+
+    for (let [kode, provinsi] of Object.entries(codeProvince)) {
+        let report4Values = Object.values(groupedData);
+        let found = false;
+        for (let i = 0; i < report4Values.length; i++) {
+            if (report4Values[i]['provinsi'] === provinsi) {
+                mustahikmap[kode] = report4Values[i]['jumlahMustahik'];
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            mustahikmap[kode] = 0;
+        }
+    }
+    console.error('mustahikmap', Object.values(mustahikmap));
+
+    // var mustahikmap = {
+    //     1: 16,
+    //     2: 11,
+    //     3: 158,
+    //     4: 6,
+    //     5: 19,
+    //     6: 8,
+    //     7: 12,
+    //     8: 10,
+    //     9: 14,
+    //     10: 200,
+    //     11: 8,
+    //     12: 10,
+    //     13: 7,
+    //     14: 11,
+    //     15: 6,
+    //     16: 10,
+    //     17: 5,
+    //     18: 8,
+    //     19: 7,
+    //     20: 8,
+    //     21: 5,
+    //     22: 4,
+    //     23: 5,
+    //     24: 4,
+    //     25: 4,
+    //     26: 3,
+    //     27: 3,
+    //     28: 3,
+    //     29: 3,
+    //     30: 2,
+    //     31: 2,
+    //     32: 2,
+    //     33: 2,
+    //     34: 2,
+    // };
 
     $('#indo-vectormap').vectorMap({
         map: 'indonesia-adm1_merc',
@@ -1591,7 +1643,7 @@
             regions: [
                 {
                     values: mustahikmap,
-                    scale: ['#C8EEFF', '#0071A4'],
+                    scale: ['#f8a9ab', '#e62228'],
                     normalizeFunction: 'polynomial',
                 },
             ],
@@ -1599,7 +1651,7 @@
         onRegionTipShow: function (e, el, code) {
             el.html(el.html() + ' (GDP - ' + mustahikmap[code] + ')');
         },
-		backgroundColor : 'transparent',
+        backgroundColor: 'transparent',
     });
 </script>
 <%- contentFor('BottomJs') %>
