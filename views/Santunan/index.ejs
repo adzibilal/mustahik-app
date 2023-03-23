@@ -81,8 +81,13 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>ID Santunan</th>
+                        <th>Tanggal</th>
+                        <th>ID Mustahik</th>
+                        <th>KTP</th>
                         <th>Mustahik</th>
                         <th>Program</th>
+                        <th>Kategori</th>
                         <th>Nominal</th>
                         <th>Action</th>
                     </tr>
@@ -91,8 +96,13 @@
                     <% santunan.forEach((santunan, index) => { %>
                     <tr>
                         <td><%= index+1 %></td>
-                        <td><%= santunan.fullname %></td>
+                        <td><%= santunan.santunan_id %></td>
+                        <td><%= santunan.tgl_santunan.toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'}) %></td>
+                        <td><%= santunan.mustahik_id ? santunan.mustahik_id : '-' %></td>
+                        <td><%= santunan.KTP %></td>
+                        <td><%= santunan.mustahik %></td>
                         <td><%= santunan.program_name %></td>
+                        <td><%= santunan.program_category %></td>
                         <td><%= santunan.nominal %></td>
                         <td>
                             <a href="/santunan/edit/<%= santunan.santunan_id %>" class="btn btn-warning btn-sm waves-effect waves-light" fdprocessedid="jzw0r">

@@ -16,12 +16,13 @@ module.exports = function (app) {
 
     app.get('/santunan', isUserAllowed, function (req, res) {
         db.query(
-            'SELECT s.*, m.fullname, p.program_name FROM santunan_perorangan s JOIN mustahik_perorangan m ON s.mustahik_id = m.mustahik_perorangan_id JOIN master_program p ON s.program_id = p.program_id',
+            'select * from view_santunan_all',
             (err, result) => {
                 if (err) {
                     console.log(err);
                     res.status(500).send('Internal Server Error');
                 } else {
+                    // console.log('result', result)
                     const data = req.session; // Mendapatkan data session
                     res.render('Santunan/index', {
                         santunan: result,
