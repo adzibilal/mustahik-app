@@ -300,7 +300,6 @@ $('#usa-vectormap').vectorMap({
 });
 
 
-
 // datatable
 $(document).ready(function () {
     $('.datatable').DataTable({

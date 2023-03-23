@@ -103,7 +103,7 @@
                         <td><%= santunan.mustahik %></td>
                         <td><%= santunan.program_name %></td>
                         <td><%= santunan.program_category %></td>
-                        <td><%= santunan.nominal %></td>
+                        <td><%= parseFloat(santunan.nominal).toLocaleString('id-ID', { style: 'currency', currency: 'IDR' }) %></td>
                         <td>
                             <a href="/santunan/edit/<%= santunan.santunan_id %>" class="btn btn-warning btn-sm waves-effect waves-light" fdprocessedid="jzw0r">
                                 Edit <i class="fas fa-pencil-alt align-middle ms-2"></i> 

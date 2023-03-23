@@ -42,7 +42,7 @@ module.exports = function (app) {
 
         // Mengambil data mustahik dari database
         db.query(
-            'SELECT * FROM mustahik_perorangan',
+            'select mustahik_id, pencarian_mustahik from db_mustahik_app.view_mustahik_all',
             function (err, rows, fields) {
                 if (err) throw err;
 
@@ -74,14 +74,17 @@ module.exports = function (app) {
 
     // Proses tambah santunan
     app.post('/santunan/add', isUserAllowed, function (req, res) {
-        const { mustahik_id, program_id, nominal } = req.body;
-        console.log('req.body', req.body);
-        console.log('mustahik_id', mustahik_id);
-        console.log('program_id', program_id);
-        console.log('nominal', nominal);
+        const { mustahik_id, program_id, nominal, date } = req.body;
+        // console.log('req.body', req.body);
+        // console.log('mustahik_id', mustahik_id);
+        // console.log('program_id', program_id);
+        const newNominal = nominal.replace(/\./g, "").replace(/Rp\s|,/g, "")
+
+        const finalNominal = Number(newNominal.slice(0, -2));
+        console.log('nominal',finalNominal);
         db.query(
-            'INSERT INTO santunan_perorangan (mustahik_id, program_id, nominal) VALUES (?, ?, ?)',
-            [mustahik_id, program_id, nominal],
+            'INSERT INTO santunan_perorangan (mustahik_id, program_id, nominal, created_at) VALUES (?, ?, ?, ?)',
+            [mustahik_id, program_id, finalNominal, date],
             (err, result) => {
                 if (err) {
                     console.log(err);

@@ -48,8 +48,8 @@
                         >
                             <option value="">Pilih Mustahik</option>
                             <% mustahik.forEach(function(m){ %>
-                            <option value="<%= m.mustahik_perorangan_id %>">
-                                <%= m.fullname %>
+                            <option value="<%= m.mustahik_id %>">
+                                <%= m.pencarian_mustahik %>
                             </option>
                             <% }); %>
                         </select>
@@ -67,7 +67,8 @@
                             <option value="">Pilih Program</option>
                             <% program.forEach(function(p){ %>
                             <option value="<%= p.program_id %>">
-                                <%= p.program_name %>
+                                <%= p.program_name %> - <%= p.program_category
+                                %>
                             </option>
                             <% }); %>
                         </select>
@@ -75,10 +76,22 @@
                     <div class="mb-3">
                         <label for="nominal" class="form-label">Nominal</label>
                         <input
-                            type="number"
+                            type="text"
                             class="form-control"
                             name="nominal"
                             id="nominal"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label"
+                            >Tanggal Santunan</label
+                        >
+                        <input
+                            type="datetime-local"
+                            class="form-control"
+                            name="date"
+                            id="date"
                             required
                         />
                     </div>
@@ -105,5 +118,41 @@
 <script src="public/assets/libs/select2/js/select2.min.js"></script>
 
 <script src="public/assets/js/pages/form-advanced.init.js"></script>
+
+<script>
+    const nominalInput = document.getElementById('nominal');
+
+    nominalInput.addEventListener('input', function (e) {
+        // Menghilangkan karakter selain angka
+        let nominal = this.value.replace(/\D/g, '');
+
+        // Mengubah nominal menjadi format uang
+        nominal = (nominal / 100).toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+        });
+
+        // Memasukkan nominal yang sudah diformat kembali ke dalam input
+        this.value = nominal;
+    });
+
+    // ambil elemen input datetime-local
+    const datetimeInput = document.getElementById('date');
+
+    // buat objek date untuk tanggal saat ini
+    const now = new Date();
+
+    // format date and time to be used in datetime-local input
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+
+    const dateTimeLocalString = `${year}-${month}-${day}T${hours}:${minutes}`;
+    console.error(dateTimeLocalString)
+    // atur nilai default input datetime-local ke tanggal dan waktu saat ini
+    datetimeInput.value = dateTimeLocalString;
+</script>
 
 <%- contentFor('BottomJs') %>
