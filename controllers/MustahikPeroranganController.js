@@ -17,12 +17,52 @@ module.exports = function (app) {
         }
     }
 
+    app.get('/getKotaByProvinsi/:id', function (req, res) {
+        var idProvinsi = req.params.id;
+        db.query(
+            'select * from loc_kota WHERE province_id = ?',
+            [idProvinsi],
+            (err, result) => {
+                if (err) throw err;
+                // console.log('result', result)
+                res.json(result);
+            }
+        ); //contoh fungsi untuk mengambil data kota
+        // res.json(kota);
+    });
+    app.get('/getKecByKota/:id', function (req, res) {
+        var idKota = req.params.id;
+        db.query(
+            'select * from loc_kec WHERE regency_id = ?',
+            [idKota],
+            (err, result) => {
+                if (err) throw err;
+                // console.log('result', result)
+                res.json(result);
+            }
+        ); //contoh fungsi untuk mengambil data kota
+        // res.json(kota);
+    });
+    app.get('/getDesaByKec/:id', function (req, res) {
+        var idKec = req.params.id;
+        db.query(
+            'select * from loc_desa WHERE district_id = ?',
+            [idKec],
+            (err, result) => {
+                if (err) throw err;
+                // console.log('result', result)
+                res.json(result);
+            }
+        ); //contoh fungsi untuk mengambil data kota
+        // res.json(kota);
+    });
+
     // GET all data
     app.get('/mustahik-perorangan', isUserAllowed, (req, res) => {
         db.query('select * from view_mustahik_all', (err, results) => {
             if (err) throw err;
             const data = req.session; // Mendapatkan data session
-            console.error(results)
+            console.error(results);
             res.render('MustahikPerorangan/index', {
                 title: 'Mustahik Perorangan',
                 mustahik_perorangan: results,
@@ -38,12 +78,19 @@ module.exports = function (app) {
     app.get('/mustahik-perorangan/add', isUserAllowed, function (req, res) {
         const data = req.session; // Mendapatkan data session
         console.log('data', data);
-        res.render('MustahikPerorangan/add', {
-            title: 'Tambah Program',
-            data: data.user,
-            message: req.flash('message'),
-            error: req.flash('error'),
-            success: req.flash('success'),
+
+        db.query('select * from loc_provinsi', (err, rows, fields) => {
+            if (err) throw err;
+
+            const provinsi = rows;
+            res.render('MustahikPerorangan/add', {
+                title: 'Tambah Program',
+                data: data.user,
+                provinsi: provinsi,
+                message: req.flash('message'),
+                error: req.flash('error'),
+                success: req.flash('success'),
+            });
         });
     });
 
@@ -69,7 +116,16 @@ module.exports = function (app) {
             asnaf_mustahik,
         } = req.body;
 
-        console.log('req.body', req.body)
+        console.log('req.body', req.body);
+
+        const newHad = had_kipayah.replace(/\./g, '').replace(/Rp\s|,/g, '');
+        const finalHad = Number(newHad.slice(0, -2));
+        console.log('Had', finalHad);
+        const newPenghasilan = penghasilan
+            .replace(/\./g, '')
+            .replace(/Rp\s|,/g, '');
+        const finalPenghasilan = Number(newPenghasilan.slice(0, -2));
+        console.log('Penghasilan', finalPenghasilan);
 
         db.query(
             'INSERT INTO mustahik_perorangan (fullname, ktp_number, tgl_lahir, tempat_lahir, had_kipayah, jumlah_tanggungan, penghasilan, gender, alamat, negara, provinsi, kota_kab, kec, kel_desa, status_menikah, jenis_mustahik, asnaf_mustahik) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -78,9 +134,9 @@ module.exports = function (app) {
                 ktp_number,
                 tgl_lahir,
                 tempat_lahir,
-                had_kipayah,
+                finalHad,
                 jumlah_tanggungan,
-                penghasilan,
+                finalPenghasilan,
                 gender,
                 alamat,
                 negara,
@@ -174,21 +230,25 @@ module.exports = function (app) {
         );
     });
 
-     // Hapus mustahik-perorangan
-     app.post('/mustahik-perorangan/delete/:id', isUserAllowed, function (req, res) {
-        const mustahikId = req.params.id;
-        db.query(
-            'DELETE FROM mustahik_perorangan WHERE mustahik_perorangan_id = ?',
-            [mustahikId],
-            (err, result) => {
-                if (err) {
-                    console.log(err);
-                    res.status(500).send('Internal Server Error');
-                } else {
-                    req.flash('success', 'Hapus Mustahik Berhasil');
-                    res.redirect('/mustahik-perorangan');
+    // Hapus mustahik-perorangan
+    app.post(
+        '/mustahik-perorangan/delete/:id',
+        isUserAllowed,
+        function (req, res) {
+            const mustahikId = req.params.id;
+            db.query(
+                'DELETE FROM mustahik_perorangan WHERE mustahik_perorangan_id = ?',
+                [mustahikId],
+                (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(500).send('Internal Server Error');
+                    } else {
+                        req.flash('success', 'Hapus Mustahik Berhasil');
+                        res.redirect('/mustahik-perorangan');
+                    }
                 }
-            }
-        );
-    });
+            );
+        }
+    );
 };

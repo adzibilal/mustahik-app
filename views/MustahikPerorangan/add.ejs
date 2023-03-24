@@ -4,7 +4,11 @@
     rel="stylesheet"
     type="text/css"
 />
-
+<style>
+    .required {
+        color: red;
+    }
+</style>
 <%- contentFor('breadcrumb') %>
 
 <div class="row">
@@ -42,7 +46,10 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label>Fullname</label>
+                                <label
+                                    >Nama Lengkap
+                                    <small class="required">*</small></label
+                                >
                                 <input
                                     type="text"
                                     class="form-control"
@@ -59,7 +66,6 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    required
                                     placeholder="Masukan KTP Number"
                                     name="ktp_number"
                                     id="ktp_number"
@@ -72,7 +78,6 @@
                                 <input
                                     type="date"
                                     class="form-control"
-                                    required
                                     name="tgl_lahir"
                                     id="tgl_lahir"
                                 />
@@ -84,7 +89,6 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    required
                                     placeholder="Masukan Tempat Lahir"
                                     name="tempat_lahir"
                                     id="tempat_lahir"
@@ -95,9 +99,8 @@
                             <div class="mb-3">
                                 <label class="form-label">Had Kipayah</label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     class="form-control"
-                                    required
                                     placeholder="Masukan Had Kipayah"
                                     name="had_kipayah"
                                     id="had_kipayah"
@@ -112,7 +115,6 @@
                                 <input
                                     type="number"
                                     class="form-control"
-                                    required
                                     placeholder="Masukan Jumlah Tanggungan"
                                     name="jumlah_tanggungan"
                                     id="jumlah_tanggungan"
@@ -123,9 +125,8 @@
                             <div class="mb-3">
                                 <label class="form-label">Penghasilan</label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     class="form-control"
-                                    required
                                     placeholder="Masukan Penghasilan"
                                     name="penghasilan"
                                     id="penghasilan"
@@ -134,7 +135,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Gender</label>
+                                <label class="form-label"
+                                    >Gender
+                                    <small class="required">*</small></label
+                                >
                                 <select
                                     class="form-control"
                                     name="gender"
@@ -154,7 +158,6 @@
                                     class="form-control"
                                     name="alamat"
                                     id="alamat"
-                                    required
                                 ></textarea>
                             </div>
                         </div>
@@ -166,56 +169,72 @@
                                     class="form-control"
                                     name="negara"
                                     id="negara"
-                                    required
+                                    value="Indonesia"
                                 />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Provinsi</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
+                                <select
+                                    class="form-control select2"
                                     name="provinsi"
                                     id="provinsi"
                                     required
-                                />
+                                >
+                                    <option value="">Pilih Provinsi</option>
+                                    <% provinsi.forEach(function(p){ %>
+                                    <option value="<%= p.id %>" data-id="<%= p.id %>">
+                                        <%= p.name %>
+                                    </option>
+                                    <% }); %>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Kota/Kabupaten</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
+                                <select
+                                    class="form-control select2"
                                     name="kota_kab"
                                     id="kota_kab"
+                                    disabled
                                     required
-                                />
+                                >
+                                    <option value="">
+                                        Pilih Kota / Kabupaten
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Kecamatan</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
+                                <select
+                                    class="form-control select2"
                                     name="kec"
                                     id="kec"
                                     required
-                                />
+                                    disabled
+                                >
+                                    <option value="">Pilih Kecamatan</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Kelurahan/Desa</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
+                                <select
+                                    class="form-control select2"
                                     name="kel_desa"
                                     id="kel_desa"
+                                    disabled
                                     required
-                                />
+                                >
+                                    <option value="">
+                                        Pilih Desa / Kecamatan
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -239,7 +258,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Jenis Mustahik</label>
+                                <label class="form-label"
+                                    >Jenis Mustahik
+                                    <small class="required">*</small></label
+                                >
                                 <select
                                     class="form-control"
                                     name="jenis_mustahik"
@@ -258,7 +280,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Asnaf Mustahik</label>
+                                <label class="form-label"
+                                    >Asnaf Mustahik
+                                    <small class="required">*</small></label
+                                >
                                 <select
                                     class="form-control"
                                     name="asnaf_mustahik"
@@ -377,5 +402,141 @@
 <script src="public/assets/libs/select2/js/select2.min.js"></script>
 
 <script src="public/assets/js/pages/form-advanced.init.js"></script>
+
+<script>
+    console.error('provinsi', JSON.parse('<%- JSON.stringify(provinsi) %>'));
+
+    $(document).ready(function () {
+        $('#provinsi').on('change', function () {
+            var idProvinsi = $(this).find('option:selected').data('id');
+            if (idProvinsi) {
+                $.ajax({
+                    url: '/getKotaByProvinsi/' + idProvinsi,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var kota = $('#kota_kab');
+                        kota.empty();
+                        kota.append(
+                            "<option value=''>Pilih Kota/Kabupaten</option>"
+                        );
+                        $.each(data, function (index, value) {
+                            kota.append(
+                                "<option value='" +
+                                    value.id +
+                                    "' data-id='" +
+                                    value.id +
+                                    "'>" +
+                                    value.name +
+                                    '</option>'
+                            );
+                        });
+                        $('#kota_kab').prop('disabled', false);
+                    },
+                });
+            } else {
+                $('#kota_kab').empty();
+                $('#kota_kab').prop('disabled', true);
+            }
+        });
+
+        $('#kota_kab').on('change', function () {
+            var idKota = $(this).find('option:selected').data('id');
+            if (idKota) {
+                $.ajax({
+                    url: '/getKecByKota/' + idKota,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var kota = $('#kec');
+                        kota.empty();
+                        kota.append(
+                            "<option value=''>Pilih Kecamatan</option>"
+                        );
+                        $.each(data, function (index, value) {
+                            kota.append(
+                                "<option value='" +
+                                    value.id +
+                                    "' data-id='" +
+                                    value.id +
+                                    "'>" +
+                                    value.name +
+                                    '</option>'
+                            );
+                        });
+                        $('#kec').prop('disabled', false);
+                    },
+                });
+            } else {
+                $('#kec').empty();
+                $('#kec').prop('disabled', true);
+            }
+        });
+
+        $('#kec').on('change', function () {
+            var idKec = $(this).find('option:selected').data('id');
+            if (idKec) {
+                $.ajax({
+                    url: '/getDesaByKec/' + idKec,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var kota = $('#kel_desa');
+                        kota.empty();
+                        kota.append(
+                            "<option value=''>Pilih Desa / Kelurahan</option>"
+                        );
+                        $.each(data, function (index, value) {
+                            kota.append(
+                                "<option value='" +
+                                    value.id +
+                                    "' data-id='" +
+                                    value.id +
+                                    "'>" +
+                                    value.name +
+                                    '</option>'
+                            );
+                        });
+                        $('#kel_desa').prop('disabled', false);
+                    },
+                });
+            } else {
+                $('#kel_desa').empty();
+                $('#kel_desa').prop('disabled', true);
+            }
+        });
+    });
+
+    const hadInput = document.getElementById('had_kipayah');
+
+    hadInput.addEventListener('input', function (e) {
+        // Menghilangkan karakter selain angka
+        let nominal = this.value.replace(/\D/g, '');
+
+        // Mengubah nominal menjadi format uang
+        nominal = (nominal / 100).toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+        });
+
+        // Memasukkan nominal yang sudah diformat kembali ke dalam input
+        this.value = nominal;
+    });
+    const penghasilanInput = document.getElementById('penghasilan');
+
+    penghasilanInput.addEventListener('input', function (e) {
+        // Menghilangkan karakter selain angka
+        let nominal = this.value.replace(/\D/g, '');
+
+        // Mengubah nominal menjadi format uang
+        nominal = (nominal / 100).toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+        });
+
+        // Memasukkan nominal yang sudah diformat kembali ke dalam input
+        this.value = nominal;
+    });
+</script>
 
 <%- contentFor('BottomJs') %>
