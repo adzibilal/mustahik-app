@@ -19,9 +19,10 @@ module.exports = function (app) {
 
     // GET all data
     app.get('/mustahik-perorangan', isUserAllowed, (req, res) => {
-        db.query('SELECT * FROM mustahik_perorangan', (err, results) => {
+        db.query('select * from view_mustahik_all', (err, results) => {
             if (err) throw err;
             const data = req.session; // Mendapatkan data session
+            console.error(results)
             res.render('MustahikPerorangan/index', {
                 title: 'Mustahik Perorangan',
                 mustahik_perorangan: results,

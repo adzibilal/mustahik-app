@@ -23,6 +23,8 @@
     rel="stylesheet"
     type="text/css"
 />
+<style>
+</style>
 
 <%- contentFor('breadcrumb') %>
 
@@ -81,27 +83,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>ID Mustahik</th>
                             <th>Fullname</th>
                             <th>KTP Number</th>
-                            <th>Tanggal Lahir</th>
-                            <th>Tempat Lahir</th>
-                            <th>Jumlah Tanggungan</th>
-                            <th>Penghasilan</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Alamat</th>
-                            <th>Negara</th>
-                            <th>Provinsi</th>
-                            <th>Kota/Kabupaten</th>
-                            <th>Kecamatan</th>
-                            <th>Kelurahan/Desa</th>
-                            <th>Status Menikah</th>
-                            <th>Jenis Mustahik</th>
-                            <th>Asnaf Mustahik</th>
-                            <th>Foto</th>
-                            <th>KTP File</th>
-                            <th>KK File</th>
-                            <th>SKTM File</th>
-                            <th>Dokumen Lainnya</th>
+                            <th>Lokasi</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -109,41 +94,147 @@
                         <% mustahik_perorangan.forEach((mst, index) => { %>
                         <tr>
                             <td><%= index+1 %></td>
-                            <td><%= mst.fullname %></td>
-                            <td><%= mst.ktp_number %></td>
-                            <td><%= mst.tgl_lahir?.toDateString() %></td>
-                            <td><%= mst.tempat_lahir %></td>
-                            <td><%= mst.jumlah_tanggungan %></td>
-                            <td>Rp <%= mst.penghasilan %></td>
-                            <td><%= mst.gender %></td>
-                            <td><%= mst.alamat %></td>
-                            <td><%= mst.negara %></td>
-                            <td><%= mst.provinsi %></td>
-                            <td><%= mst.kota_kab %></td>
-                            <td><%= mst.kec %></td>
-                            <td><%= mst.kel_desa %></td>
-                            <td><%= mst.status_menikah %></td>
-                            <td><%= mst.jenis_mustahik %></td>
-                            <td><%= mst.asnaf_mustahik %></td>
-                            <td><img src="<%= mst.url_photo %>" alt="Foto mustahik" height="50px" width="50px"></td>
-                            <td><a href="<%= mst.url_ktp_file %>" target="_blank">Lihat file</a></td>
-                            <td><a href="<%= mst.url_kk_file %>" target="_blank">Lihat file</a></td>
-                            <td><a href="<%= mst.url_sktm_file %>" target="_blank">Lihat file</a></td>
-                            <td><a href="<%= mst.url_docs_lain %>" target="_blank">Lihat file</a></td>
+                            <td><%= mst.ID_Mustahik %></td>
+                            <td><%= mst.nama %></td>
+                            <td><%= mst.no_ktp %></td>
+                            <td><%= mst.lokasi %></td>
+                            
                             <td>
-                                <a href="/mustahik-perorangan/edit/<%= mst.mustahik_perorangan_id %>" class="btn btn-warning btn-sm waves-effect waves-light" fdprocessedid="jzw0r">
-                                    Edit <i class="fas fa-pencil-alt align-middle ms-2"></i> 
-                                </a>
-                                <form method="post" action="/mustahik-perorangan/delete/<%= mst.mustahik_perorangan_id %>">
-                                    <button type="submit" class="btn btn-danger btn-sm waves-effect waves-light" fdprocessedid="jzw0r" onclick="return confirm('Kamu yakin ingin menghapus mustahik ini?')">
-                                        Delete <i class="fas fa-trash align-middle ms-2"></i> 
+                                <div class="btn-group dropstart">
+                                    
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-autoclose="outside">
+                                      Aksi
                                     </button>
-                                </form>
+                                    <ul class="dropdown-menu ">
+                                        <div class="flex-action" style="display: flex;flex-direction: column;gap: 5px;padding: 10px;">
+                                            <a href="/mustahik-perorangan/edit/<%= mst.mustahik_id %>" class="btn btn-warning btn-sm waves-effect waves-light" fdprocessedid="jzw0r">
+                                                Edit <i class="fas fa-pencil-alt align-middle ms-2"></i> 
+                                            </a>
+                                            
+                                            <form style="width: 100%;" method="post" action="/mustahik-perorangan/delete/<%= mst.mustahik_id %>">
+                                                <button type="submit" style="width: 100%;"  class="btn btn-danger btn-sm waves-effect waves-light" fdprocessedid="jzw0r" onclick="return confirm('Kamu yakin ingin menghapus mustahik ini?')">
+                                                    Delete <i class="fas fa-trash align-middle ms-2"></i> 
+                                                </button>
+                                            </form>
+                                            
+                                            
+                                            <button type="button" class="btn btn-info btn-sm waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#mdl<%= mst.mustahik_id %>">
+                                                Detail <i class="fas fa-info"></i>
+                                            </button>
+                                            <a href="" class="btn btn-info btn-sm waves-effect waves-light" >
+                                                Tambah Santunan <i class="fas fa-gift"></i>
+                                            </a>
+                                            <a href="" class="btn btn-secondary btn-sm waves-effect waves-light" >
+                                                History Santunan
+                                            </a>
+                                            <a href="" class="btn btn-secondary btn-sm waves-effect waves-light" >
+                                                History Santunan Manual
+                                            </a>
+                                        </div>
+                                    </ul>
+                                  </div>
+                                
+
                             </td>
                         </tr>
                         <% }); %>
                     </tbody>
                 </table>
+
+
+                <!-- Button trigger modal -->
+                <% mustahik_perorangan.forEach((mst, index) => { %>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="mdl<%= mst.mustahik_id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Mustahik <%= mst.ID_Mustahik %></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Nama Mustahik</label>
+                                    <input value="<%= mst.nama %>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">No KTP</label>
+                                    <input value="<%= mst.no_ktp %>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Tanggal Lahir</label>
+                                    <input value="<%= mst.tanggal_lahir%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Jenis Kelamin</label>
+                                    <input value="<%= mst.jenis_kelamin%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Lokasi</label>
+                                    <input value="<%= mst.lokasi%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Status Menikah</label>
+                                    <input value="<%= mst.status%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Asnaf Mustahik</label>
+                                    <input value="<%= mst.asnaf%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Jenis Mustahik</label>
+                                    <input value="<%= mst.jenis_mustahik%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Alamat</label>
+                                    <input value="<%= mst.alamat%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Kelurahan</label>
+                                    <input value="<%= mst.kel%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Kecamatan</label>
+                                    <input value="<%= mst.kec%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Kota Kab</label>
+                                    <input value="<%= mst.kota_kab%>" type="text" class="form-control" id="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Foto Mustahik</label>
+                                    <a href="#">Lihat Foto</a>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Foto KTP</label>
+                                    <a href="#">Lihat Foto</a>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Foto KK</label>
+                                    <a href="#">Lihat Foto</a>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Foto SKTM</label>
+                                    <a href="#">Lihat Foto</a>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="" class="form-label">Foto Dokumen Lain</label>
+                                    <a href="#">Lihat Foto</a>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <a href="/mustahik-perorangan/edit/<%= mst.mustahik_id %>" type="button" class="btn btn-warning">Edit Mustahik</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <% }); %>
+
             </div>
         </div>
     </div>
@@ -175,5 +266,9 @@
 
 <!-- Datatable init js -->
 <script src="public/assets/js/pages/datatables.init.js"></script>
+
+<script>
+
+</script>
 
 <%- contentFor('BottomJs') %>
