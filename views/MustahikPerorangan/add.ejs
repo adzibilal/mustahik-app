@@ -184,7 +184,7 @@
                                 >
                                     <option value="">Pilih Provinsi</option>
                                     <% provinsi.forEach(function(p){ %>
-                                    <option value="<%= p.id %>" data-id="<%= p.id %>">
+                                    <option value="<%= p.name %>" data-id="<%= p.id %>">
                                         <%= p.name %>
                                     </option>
                                     <% }); %>
@@ -368,6 +368,7 @@
                                 />
                             </div>
                         </div>
+                        <input type="hidden" name="wsantunan" id="wsantunan" value="0">
                     </div>
 
                     <div class="mb-0">
@@ -375,14 +376,22 @@
                             <button
                                 type="submit"
                                 class="btn btn-primary waves-effect waves-light me-1"
+                                id="simpan"
                             >
                                 Simpan
                             </button>
                             <a
-                                href="/mustahik-perorangan"
-                                class="btn btn-secondary waves-effect"
+                            href="/mustahik-perorangan"
+                            class="btn btn-secondary waves-effect"
                             >
-                                Batal
+                            Batal
+                            </a>
+                            <a
+                                class="btn btn-primary waves-effect waves-light me-1"
+                                id="simpan_tambah"
+                                onclick="simpanTambah()"
+                            >
+                                Simpan & Tambah Santunan
                             </a>
                         </div>
                     </div>
@@ -417,13 +426,23 @@
                     success: function (data) {
                         var kota = $('#kota_kab');
                         kota.empty();
+                        var kec = $('#kec');
+                        kec.empty();
                         kota.append(
                             "<option value=''>Pilih Kota/Kabupaten</option>"
+                        );
+                        kec.append(
+                            "<option value=''>Pilih Kecamatan</option>"
+                        );
+                        var desa = $('#kel_desa');
+                        desa.empty();
+                        desa.append(
+                            "<option value=''>Pilih Desa / Kelurahan</option>"
                         );
                         $.each(data, function (index, value) {
                             kota.append(
                                 "<option value='" +
-                                    value.id +
+                                    value.name +
                                     "' data-id='" +
                                     value.id +
                                     "'>" +
@@ -448,15 +467,20 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        var kota = $('#kec');
-                        kota.empty();
-                        kota.append(
+                        var kec = $('#kec');
+                        kec.empty();
+                        kec.append(
                             "<option value=''>Pilih Kecamatan</option>"
                         );
+                        var desa = $('#kel_desa');
+                        desa.empty();
+                        desa.append(
+                            "<option value=''>Pilih Desa / Kelurahan</option>"
+                        );
                         $.each(data, function (index, value) {
-                            kota.append(
+                            kec.append(
                                 "<option value='" +
-                                    value.id +
+                                    value.name +
                                     "' data-id='" +
                                     value.id +
                                     "'>" +
@@ -481,15 +505,15 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        var kota = $('#kel_desa');
-                        kota.empty();
-                        kota.append(
+                        var desa = $('#kel_desa');
+                        desa.empty();
+                        desa.append(
                             "<option value=''>Pilih Desa / Kelurahan</option>"
                         );
                         $.each(data, function (index, value) {
-                            kota.append(
+                            desa.append(
                                 "<option value='" +
-                                    value.id +
+                                    value.name +
                                     "' data-id='" +
                                     value.id +
                                     "'>" +
@@ -506,6 +530,13 @@
             }
         });
     });
+
+    function simpanTambah() {
+        $('#wsantunan').val('1')
+        const wsantunan = $('#wsantunan').val()
+        console.error(wsantunan)
+        $('#simpan').click()
+    }
 
     const hadInput = document.getElementById('had_kipayah');
 

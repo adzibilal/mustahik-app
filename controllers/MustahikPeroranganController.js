@@ -62,7 +62,7 @@ module.exports = function (app) {
         db.query('select * from view_mustahik_all', (err, results) => {
             if (err) throw err;
             const data = req.session; // Mendapatkan data session
-            console.error(results);
+            // console.error(results);
             res.render('MustahikPerorangan/index', {
                 title: 'Mustahik Perorangan',
                 mustahik_perorangan: results,
@@ -114,9 +114,10 @@ module.exports = function (app) {
             status_menikah,
             jenis_mustahik,
             asnaf_mustahik,
+            wsantunan,
         } = req.body;
 
-        console.log('req.body', req.body);
+        console.log('wsantunan', wsantunan);
 
         const newHad = had_kipayah.replace(/\./g, '').replace(/Rp\s|,/g, '');
         const finalHad = Number(newHad.slice(0, -2));
@@ -150,8 +151,13 @@ module.exports = function (app) {
             ],
             (err, result) => {
                 if (err) throw err;
-                req.flash('success', 'Tambah Mustahik Berhasil');
-                res.redirect('/mustahik-perorangan');
+                if (wsantunan === '0') {
+                    req.flash('success', 'Tambah Mustahik Berhasil');
+                    res.redirect('/mustahik-perorangan');
+                } else {
+                    console.error('result',result)
+                    res.redirect('/santunan/add_santunan/'+result.insertId);
+                }
             }
         );
     });

@@ -49,6 +49,7 @@ app.use('/mustahik-perorangan/public', express.static('public'));
 app.use('/mustahik-perorangan/edit/public', express.static('public'));
 app.use('/santunan/public', express.static('public'));
 app.use('/santunan/edit/public', express.static('public'));
+app.use('/santunan/add_santunan/public', express.static('public'));
 
 
 // app.use(express.static(path.join(__dirname, '/public')))

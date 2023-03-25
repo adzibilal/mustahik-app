@@ -71,6 +71,44 @@ module.exports = function (app) {
             }
         );
     });
+    app.get('/santunan/add_santunan/:mustahik_id', isUserAllowed, function (req, res) {
+
+        const { mustahik_id } = req.params;
+        const data = req.session; // Mendapatkan data session
+        
+        
+        // Mengambil data mustahik dari database
+        db.query(
+            'select mustahik_id, pencarian_mustahik from db_mustahik_app.view_mustahik_all',
+            function (err, rows, fields) {
+                if (err) throw err;
+
+                const mustahik = rows;
+
+                // Mengambil data program dari database
+                db.query(
+                    'SELECT * FROM master_program',
+                    function (err, rows, fields) {
+                        if (err) throw err;
+
+                        const program = rows;
+
+                        // Render halaman dengan data mustahik dan program yang telah diambil
+                        res.render('Santunan/add_santunan', {
+                            title: 'Tambah Santunan Perorangan',
+                            data: data.user,
+                            selected_id: mustahik_id,
+                            mustahik: mustahik, // Menambahkan variabel mustahik yang berisi data mustahik dari database
+                            program: program, // Menambahkan variabel program yang berisi data program dari database
+                            message: req.flash('message'),
+                            error: req.flash('error'),
+                            success: req.flash('success'),
+                        });
+                    }
+                );
+            }
+        );
+    });
 
     // Proses tambah santunan
     app.post('/santunan/add', isUserAllowed, function (req, res) {
