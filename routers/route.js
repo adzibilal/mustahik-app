@@ -37,10 +37,13 @@ module.exports = function (app) {
                 const report1 = rows;
 
                 db.query(
-                    `select vsa.program_name as program,
-                    sum(vsa.nominal) as nominal,
-                    ROUND((sum(vsa.nominal) / (select sum(vsa2.nominal) from view_santunan_all as vsa2)) * 100,2) as persentasi
-                    from db_mustahik_app.view_santunan_all vsa
+                    `select 
+                    p.program_name as program,
+                    sum(s.nominal) as nominal,
+                    ROUND((sum(s.nominal) / (select sum(s2.nominal) from santunan_perorangan s2)) * 100, 2) as persentasi
+                    from santunan_perorangan s
+                    join master_program p on s.program_id = p.program_id
+                    join mustahik_perorangan mp on s.mustahik_id = mp.mustahik_perorangan_id
                     group by program_name;
                 `,
                     function (err, rows, fields) {
@@ -50,7 +53,10 @@ module.exports = function (app) {
                         // console.log('report2', report2)
 
                         db.query(
-                            `select concat(YEAR(tgl_santunan),' - ',MONTH(tgl_santunan)) as YM, MONTHNAME(tgl_santunan) as month_name, sum(nominal) from db_mustahik_app.view_santunan_all as vsa
+                            `select concat(YEAR(s.created_at), ' - ', MONTH(s.created_at)) as YM, MONTHNAME(s.created_at) as month_name, sum(s.nominal) 
+                            from santunan_perorangan s
+                            join master_program p on s.program_id = p.program_id
+                            join mustahik_perorangan mp on s.mustahik_id = mp.mustahik_perorangan_id
                             group by YM;
                             `,
                             function (err, rows, fields) {

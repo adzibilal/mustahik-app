@@ -456,7 +456,7 @@
         ).getMonth();
 
         // Menempatkan nilai pada index yang sesuai di dalam array data
-        dataByYear[year].data[monthIndex] = parseFloat(report['sum(nominal)']);
+        dataByYear[year].data[monthIndex] = parseFloat(report['sum(s.nominal)']);
     });
 
     // Mengubah objek dataByYear menjadi array untuk digunakan pada chart
