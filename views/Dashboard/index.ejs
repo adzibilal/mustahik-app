@@ -31,6 +31,136 @@
 
 <h1>Selamat Datang, <%= data[0].fullname %></h1>
 <br /><br />
+<div class="row">
+    <div class="col-xl-8">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2">
+                                    Total Mustahik
+                                </p>
+                                <h4 class="mb-0">
+                                    <%= report1[0].total_mustahik %>
+                                </h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="ri-stack-line font-size-24"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2">
+                                    Total Santunan
+                                </p>
+                                <h4 class="mb-0" id="total-santunan"></h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="ri-store-2-line font-size-24"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2">
+                                    Jumlah Program
+                                </p>
+                                <h4 class="mb-0">
+                                    <%= report1[0].jumlah_program %>
+                                </h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="ri-briefcase-4-line font-size-24"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Santunan By Month This Year</h4>
+                <div>
+                    <div id="report-bar" class="apex-charts" dir="ltr"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Santunan by Program</h4>
+
+                <div id="dashboard-donut" class="apex-charts"></div>
+                <div class="row">
+                    <% report2.forEach((item, index) => { %>
+                    <div class="col-6">
+                        <div class="text-center mt-4">
+                            <p class="mb-2 text-truncate">
+                                <i
+                                    class="mdi mdi-circle text-primary font-size-10 me-1"
+                                ></i>
+                                <%= item.program %>
+                            </p>
+                            <h5><%= item.persentasi %> %</h5>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Peta Sebaran Mustahik</h4>
+
+                <div id="indo-vectormap" style="height: 500px"></div>
+
+                <div class="row justify-content-center">
+                    <% report4.forEach((item, index) => { %>
+                    <div class="col-md-4">
+                        <div class="mt-2">
+                            <div class="clearfix py-2">
+                                <h5 class="float-end font-size-16 m-0">
+                                    <%= item.jumlah_mustahik %>
+                                </h5>
+                                <p class="text-muted mb-0 text-truncate">
+                                    <%= item.kota_kab %> <small><%= item.provinsi %></small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+<!-- end row -->
 
 <%- contentFor('FooterJs') %>
 
@@ -51,4 +181,478 @@
 <script src="public/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
 <script src="public/assets/js/pages/dashboard.init.js"></script>
+
+<script>
+    const totalSantunanElement = document.getElementById("total-santunan");
+    const totalSantunan = <%= report1[0].total_santunan %>;
+    const formattedTotalSantunan = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(totalSantunan);
+    totalSantunanElement.textContent = formattedTotalSantunan;
+</script>
+
+<script>
+    const report2 = JSON.parse('<%- JSON.stringify(report2) %>'); // tambahkan JSON.stringify untuk mengubah array JavaScript menjadi JSON
+
+    const labelArray = report2.map((item) => item.program); // ganti parseFloat dengan mengakses properti "program" pada objek item
+    const nominalArray = report2.map((item) => parseInt(item.nominal)); // ganti parseFloat dengan mengakses properti "nominal" pada objek item
+
+    // Array of colors to choose from
+    const colors = [
+        '#FF4136',
+        '#2ECC40',
+        '#0074D9',
+        '#FFDC00',
+        '#7FDBFF',
+        '#FF851B',
+        '#B10DC9',
+        '#01FF70',
+        '#F012BE',
+        '#3D9970',
+        '#F012BE',
+        '#85144B',
+        '#39CCCC',
+        '#F012BE',
+        '#001f3f',
+        '#01FF70',
+        '#FF4136',
+        '#3D9970',
+        '#85144B',
+        '#7FDBFF',
+        '#FFDC00',
+        '#2ECC40',
+        '#FF851B',
+        '#39CCCC',
+        '#B10DC9',
+        '#0074D9',
+        '#111111',
+        '#AAAAAA',
+        '#DDDDDD',
+        '#FFFFFF',
+        '#1ABC9C',
+        '#2C3E50',
+        '#F39C12',
+        '#D35400',
+        '#8E44AD',
+        '#34495E',
+        '#16A085',
+        '#27AE60',
+        '#2980B9',
+        '#C0392B',
+        '#E74C3C',
+        '#8E44AD',
+        '#3498DB',
+        '#F1C40F',
+        '#E67E22',
+        '#16A085',
+        '#2ECC71',
+        '#2C3E50',
+        '#34495E',
+        '#F39C12',
+    ];
+
+    // Array of random colors with the same length as report2
+    const hexColors = report2.map((item, index) => colors[index]);
+
+    // console.error('labelArray', labelArray);
+    // console.error('nominalArray', nominalArray);
+    // console.error('hexColors', hexColors);
+    var options = {
+        series: nominalArray,
+        chart: {
+            height: 250,
+            type: 'donut',
+        },
+        labels: labelArray,
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '75%',
+                },
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        legend: {
+            show: false,
+        },
+        colors: hexColors,
+    };
+
+    var chart = new ApexCharts(
+        document.querySelector('#dashboard-donut'),
+        options
+    );
+    chart.render();
+</script>
+
+<script>
+    // Line-column chart
+    const report3 = JSON.parse('<%- JSON.stringify(report3) %>');
+    // const report3 = [
+    //     {
+    //         YM: '2019 - 1',
+    //         month_name: 'January',
+    //         'sum(nominal)': '1000000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 2',
+    //         month_name: 'February',
+    //         'sum(nominal)': '1100000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 3',
+    //         month_name: 'March',
+    //         'sum(nominal)': '1200000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 4',
+    //         month_name: 'April',
+    //         'sum(nominal)': '1300000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 5',
+    //         month_name: 'May',
+    //         'sum(nominal)': '1400000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 6',
+    //         month_name: 'June',
+    //         'sum(nominal)': '1500000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 7',
+    //         month_name: 'July',
+    //         'sum(nominal)': '1600000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 8',
+    //         month_name: 'August',
+    //         'sum(nominal)': '1700000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 9',
+    //         month_name: 'September',
+    //         'sum(nominal)': '1800000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 10',
+    //         month_name: 'October',
+    //         'sum(nominal)': '1900000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 11',
+    //         month_name: 'November',
+    //         'sum(nominal)': '2000000.00',
+    //     },
+    //     {
+    //         YM: '2019 - 12',
+    //         month_name: 'December',
+    //         'sum(nominal)': '2100000.00',
+    //     },
+    //     { YM: '2020 - 1', month_name: 'January', 'sum(nominal)': '500000.00' },
+    //     { YM: '2020 - 2', month_name: 'February', 'sum(nominal)': '750000.00' },
+    //     { YM: '2020 - 3', month_name: 'March', 'sum(nominal)': '1000000.00' },
+    //     { YM: '2020 - 4', month_name: 'April', 'sum(nominal)': '850000.00' },
+    //     { YM: '2020 - 5', month_name: 'May', 'sum(nominal)': '700000.00' },
+    //     { YM: '2020 - 6', month_name: 'June', 'sum(nominal)': '600000.00' },
+    //     { YM: '2020 - 7', month_name: 'July', 'sum(nominal)': '900000.00' },
+    //     { YM: '2020 - 8', month_name: 'August', 'sum(nominal)': '1250000.00' },
+    //     {
+    //         YM: '2020 - 9',
+    //         month_name: 'September',
+    //         'sum(nominal)': '800000.00',
+    //     },
+    //     { YM: '2020 - 10', month_name: 'October', 'sum(nominal)': '900000.00' },
+    //     {
+    //         YM: '2020 - 11',
+    //         month_name: 'November',
+    //         'sum(nominal)': '900000.00',
+    //     },
+    //     {
+    //         YM: '2020 - 12',
+    //         month_name: 'December',
+    //         'sum(nominal)': '900000.00',
+    //     },
+    //     { YM: '2021 - 1', month_name: 'January', 'sum(nominal)': '500000.00' },
+    //     {
+    //         YM: '2021 - 2',
+    //         month_name: 'February',
+    //         'sum(nominal)': '600000.00',
+    //     },
+    //     { YM: '2021 - 3', month_name: 'March', 'sum(nominal)': '700000.00' },
+    //     { YM: '2021 - 4', month_name: 'April', 'sum(nominal)': '800000.00' },
+    //     { YM: '2021 - 5', month_name: 'May', 'sum(nominal)': '900000.00' },
+    //     { YM: '2021 - 6', month_name: 'June', 'sum(nominal)': '1000000.00' },
+    //     { YM: '2021 - 7', month_name: 'July', 'sum(nominal)': '1100000.00' },
+    //     { YM: '2021 - 8', month_name: 'August', 'sum(nominal)': '1200000.00' },
+    //     {
+    //         YM: '2021 - 9',
+    //         month_name: 'September',
+    //         'sum(nominal)': '1300000.00',
+    //     },
+    //     {
+    //         YM: '2021 - 10',
+    //         month_name: 'October',
+    //         'sum(nominal)': '1400000.00',
+    //     },
+    //     {
+    //         YM: '2021 - 11',
+    //         month_name: 'November',
+    //         'sum(nominal)': '1500000.00',
+    //     },
+    //     {
+    //         YM: '2021 - 12',
+    //         month_name: 'December',
+    //         'sum(nominal)': '280000.00',
+    //     },
+    //     { YM: '2023 - 3', month_name: 'March', 'sum(nominal)': '700000.00' },
+    //     { YM: '2023 - 4', month_name: 'April', 'sum(nominal)': '800000.00' },
+    //     { YM: '2023 - 5', month_name: 'May', 'sum(nominal)': '900000.00' },
+    //     { YM: '2023 - 6', month_name: 'June', 'sum(nominal)': '1000000.00' },
+    //     { YM: '2023 - 7', month_name: 'July', 'sum(nominal)': '1100000.00' },
+    //     { YM: '2023 - 8', month_name: 'August', 'sum(nominal)': '1200000.00' },
+    //     {
+    //         YM: '2023 - 9',
+    //         month_name: 'September',
+    //         'sum(nominal)': '1300000.00',
+    //     },
+    //     {
+    //         YM: '2023 - 10',
+    //         month_name: 'October',
+    //         'sum(nominal)': '1400000.00',
+    //     },
+    //     {
+    //         YM: '2023 - 11',
+    //         month_name: 'November',
+    //         'sum(nominal)': '1500000.00',
+    //     },
+    //     {
+    //         YM: '2023 - 12',
+    //         month_name: 'December',
+    //         'sum(nominal)': '1600000.00',
+    //     },
+    // ];
+    console.error('report3', report3);
+
+    // Membuat objek yang akan menyimpan data berdasarkan tahun
+    const dataByYear = {};
+
+    // Looping setiap objek pada array report3
+    report3.forEach((report) => {
+        // Mendapatkan tahun dari field YM
+        const year = report.YM.split(' - ')[0];
+
+        // Jika objek untuk tahun tersebut belum ada, maka buat objek baru
+        if (!dataByYear[year]) {
+            dataByYear[year] = {
+                year: year,
+                data: Array(12).fill(0), // Membuat array kosong dengan 12 nilai 0
+            };
+        }
+
+        // Mendapatkan index bulan dari field month_name
+        const monthIndex = new Date(
+            Date.parse(report.month_name + ' 1, 2000')
+        ).getMonth();
+
+        // Menempatkan nilai pada index yang sesuai di dalam array data
+        dataByYear[year].data[monthIndex] = parseFloat(report['sum(nominal)']);
+    });
+
+    // Mengubah objek dataByYear menjadi array untuk digunakan pada chart
+    const dataSeries = Object.values(dataByYear).map((data, index) => {
+        console.error('data year', data.year);
+        const now = new Date();
+        const tahunSekarang = now.getFullYear();
+
+        console.error('tahunSekarang', tahunSekarang);
+        return {
+            name: data.year,
+            // type: data.year == tahunSekarang ? 'column' : 'line',
+            type: 'column',
+            data: data.data,
+        };
+    });
+
+    console.error('dataSeries', dataSeries);
+
+    // Array of random colors with the same length as report2
+    const hexColors3 = report3.map((item, index) => colors[index]);
+
+    var options = {
+        series: dataSeries,
+        chart: {
+            height: 280,
+            type: 'line',
+            toolbar: {
+                show: false,
+            },
+        },
+        stroke: {
+            width: [0, 3],
+            curve: 'smooth',
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '20%',
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+
+        legend: {
+            show: false,
+        },
+        colors: hexColors3,
+        labels: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+        ],
+    };
+
+    var chart = new ApexCharts(document.querySelector('#report-bar'), options);
+    chart.render();
+</script>
+
+<script>
+    console.error('report4', JSON.parse('<%- JSON.stringify(report4) %>'));
+
+    const report4 = JSON.parse('<%- JSON.stringify(report4) %>');
+    const codeProvince = {
+        1: 'Aceh',
+        2: 'Bali',
+        3: 'Bangka-Belitung',
+        4: 'Banten',
+        5: 'Bengkulu',
+        6: 'Gorontalo',
+        7: 'Irian Jaya Barat',
+        8: 'DKI Jakarta',
+        9: 'Jambi',
+        10: 'Jawa Barat',
+        11: 'Jawa Tengah',
+        12: 'Jawa Timur',
+        13: 'Kalimantan Barat',
+        14: 'Kalimantan Selatan',
+        15: 'Kalimantan Tengah',
+        16: 'Kalimantan Timur',
+        17: 'Kalimantan Utara',
+        18: 'Kepulauan Riau',
+        19: 'Lampung',
+        20: 'Maluku Utara',
+        21: 'Maluku',
+        22: 'NTB',
+        23: 'NTT',
+        24: 'Papua',
+        25: 'Riau',
+        26: 'Sulawesi Barat',
+        27: 'Sulawesi Selatan',
+        28: 'Sulawesi Tengah',
+        29: 'Sulawesi Tenggara',
+        30: 'Sulawesi Utara',
+        31: 'Sumatera Barat',
+        32: 'Sumatera Selatan',
+        33: 'Sumatera Utara',
+        34: 'Yogyakarta',
+    };
+    const groupedData = {};
+
+    // Iterasi setiap objek dalam array data
+    report4.forEach((item) => {
+        const provinsi = item.provinsi;
+        const jumlahMustahik = item.jumlah_mustahik;
+
+        // Jika objek provinsi belum ada dalam groupedData, buat objek baru
+        if (!groupedData[provinsi]) {
+            groupedData[provinsi] = { provinsi, jumlahMustahik };
+        }
+        // Jika objek provinsi sudah ada dalam groupedData, tambahkan jumlah mustahik
+        else {
+            groupedData[provinsi].jumlahMustahik += jumlahMustahik;
+        }
+    });
+
+    let mustahikmap = {};
+
+    for (let [kode, provinsi] of Object.entries(codeProvince)) {
+        let report4Values = Object.values(groupedData);
+        let found = false;
+        for (let i = 0; i < report4Values.length; i++) {
+            if (report4Values[i]['provinsi'] === provinsi) {
+                mustahikmap[kode] = report4Values[i]['jumlahMustahik'];
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            mustahikmap[kode] = 0;
+        }
+    }
+    console.error('mustahikmap', Object.values(mustahikmap));
+
+    // var mustahikmap = {
+    //     1: 16,
+    //     2: 11,
+    //     3: 158,
+    //     4: 6,
+    //     5: 19,
+    //     6: 8,
+    //     7: 12,
+    //     8: 10,
+    //     9: 14,
+    //     10: 200,
+    //     11: 8,
+    //     12: 10,
+    //     13: 7,
+    //     14: 11,
+    //     15: 6,
+    //     16: 10,
+    //     17: 5,
+    //     18: 8,
+    //     19: 7,
+    //     20: 8,
+    //     21: 5,
+    //     22: 4,
+    //     23: 5,
+    //     24: 4,
+    //     25: 4,
+    //     26: 3,
+    //     27: 3,
+    //     28: 3,
+    //     29: 3,
+    //     30: 2,
+    //     31: 2,
+    //     32: 2,
+    //     33: 2,
+    //     34: 2,
+    // };
+
+    $('#indo-vectormap').vectorMap({
+        map: 'indonesia-adm1_merc',
+        series: {
+            regions: [
+                {
+                    values: mustahikmap,
+                    scale: ['#f8a9ab', '#e62228'],
+                    normalizeFunction: 'polynomial',
+                },
+            ],
+        },
+        onRegionTipShow: function (e, el, code) {
+            el.html(el.html() + ' (GDP - ' + mustahikmap[code] + ')');
+        },
+        backgroundColor: 'transparent',
+    });
+</script>
 <%- contentFor('BottomJs') %>

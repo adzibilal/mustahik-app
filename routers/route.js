@@ -14,61 +14,75 @@ module.exports = function (app) {
         }
     }
 
-    app.get('/', isUserAllowed, function (req, res) {
-        const data = req.session; // Mendapatkan data session
-        res.locals = {
-            title: 'Dashboard',
-            data: data.user,
-        };
-        res.render('Dashboard/index');
-    });
     // app.get('/', isUserAllowed, function (req, res) {
     //     const data = req.session; // Mendapatkan data session
-
-    //     db.query('select * from view_dashboard_card_1', (err, rows, field) => {
-    //         if (err) throw err;
-    //         const report1 = rows;
-
-    //         db.query(
-    //             'select * from view_dashboard_donuts_1',
-    //             function (err, rows, fields) {
-    //                 if (err) throw err;
-
-    //                 const report2 = rows;
-    //                 // console.log('report2', report2)
-
-    //                 db.query(
-    //                     'select * from view_dashboard_bar_1',
-    //                     function (err, rows, fields) {
-    //                         if (err) throw err;
-    //                         const report3 = rows;
-    //                         // console.log('report3', report3);
-
-    //                         db.query(
-    //                             'select * from view_dashboard_map_city_mustahik',
-    //                             function (err, rows, fields) {
-    //                                 if (err) throw err;
-    //                                 const report4 = rows;
-    //                                 const data = req.session; // Mendapatkan data session
-    //                                 res.locals = {
-    //                                     title: 'Dashboard',
-    //                                     data: data.user,
-    //                                     report1: report1,
-    //                                     report2: report2,
-    //                                     report3: report3,
-    //                                     report4: report4,
-    //                                 };
-    //                                 res.render('Dashboard/index');
-    //                             }
-    //                         );
-    //                     }
-    //                 );
-    //             }
-    //         );
-    //     });
+    //     res.locals = {
+    //         title: 'Dashboard',
+    //         data: data.user,
+    //     };
+    //     res.render('Dashboard/index');
     // });
+    app.get('/', isUserAllowed, function (req, res) {
+        const data = req.session; // Mendapatkan data session
 
+        db.query(
+            `
+        select 
+            (select count(*) from db_mustahik_app.mustahik_perorangan) as total_mustahik,
+            ((select sum(nominal) from db_mustahik_app.santunan_perorangan_manual) + (select sum(nominal) from db_mustahik_app.santunan_perorangan)) as total_santunan,
+            (select count(*) from db_mustahik_app.master_program) as jumlah_program
+        `,
+            (err, rows, field) => {
+                if (err) throw err;
+                const report1 = rows;
 
+                db.query(
+                    `select vsa.program_name as program,
+                    sum(vsa.nominal) as nominal,
+                    ROUND((sum(vsa.nominal) / (select sum(vsa2.nominal) from view_santunan_all as vsa2)) * 100,2) as persentasi
+                    from db_mustahik_app.view_santunan_all vsa
+                    group by program_name;
+                `,
+                    function (err, rows, fields) {
+                        if (err) throw err;
+
+                        const report2 = rows;
+                        // console.log('report2', report2)
+
+                        db.query(
+                            `select concat(YEAR(tgl_santunan),' - ',MONTH(tgl_santunan)) as YM, MONTHNAME(tgl_santunan) as month_name, sum(nominal) from db_mustahik_app.view_santunan_all as vsa
+                            group by YM;
+                            `,
+                            function (err, rows, fields) {
+                                if (err) throw err;
+                                const report3 = rows;
+                                // console.log('report3', report3);
+
+                                db.query(
+                                    `select provinsi,kota_kab, count(*) as jumlah_mustahik from mustahik_perorangan
+                                    group by kota_kab;`,
+                                    function (err, rows, fields) {
+                                        if (err) throw err;
+                                        const report4 = rows;
+                                        const data = req.session; // Mendapatkan data session
+                                        res.locals = {
+                                            title: 'Dashboard',
+                                            data: data.user,
+                                            report1: report1,
+                                            report2: report2,
+                                            report3: report3,
+                                            report4: report4,
+                                        };
+                                        res.render('Dashboard/index');
+                                    }
+                                );
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
 
     // Layouts
     app.get('/layouts-light-sidebar', isUserAllowed, function (req, res) {

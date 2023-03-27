@@ -59,19 +59,47 @@ module.exports = function (app) {
 
     // GET all data
     app.get('/mustahik-perorangan', isUserAllowed, (req, res) => {
-        db.query('select * from view_mustahik_all', (err, results) => {
-            if (err) throw err;
-            const data = req.session; // Mendapatkan data session
-            // console.error(results);
-            res.render('MustahikPerorangan/index', {
-                title: 'Mustahik Perorangan',
-                mustahik_perorangan: results,
-                data: data.user,
-                message: req.flash('message'),
-                error: req.flash('error'),
-                success: req.flash('success'),
-            });
-        });
+        db.query(
+            `select
+        mp.mustahik_perorangan_id as mustahik_id,
+        concat('MUS-',DATE_FORMAT(created_at,'%Y%m%d'),'-',mp.mustahik_perorangan_id) as ID_Mustahik,
+        fullname as nama,
+        ktp_number as no_ktp,
+        tgl_lahir as tanggal_lahir,
+        gender as jenis_kelamin,
+        concat(kota_kab,', ',kec) as lokasi,
+        status_menikah as status,
+        asnaf_mustahik as asnaf,
+        jenis_mustahik,
+        alamat,
+        kel_desa as kel,
+        kec,
+        kota_kab,
+        url_photo,
+        url_ktp_file,
+        url_kk_file,
+        url_sktm_file,
+        url_docs_lain,
+        concat(
+            fullname, ' | ',     concat('MUS-',DATE_FORMAT(created_at,'%Y%m%d'),'-',mp.mustahik_perorangan_id),' | ',
+            ' NIK : ' , case when ktp_number is not null then ktp_number else 0 end, ' | ',
+            concat(kota_kab,', ',kec)
+            ) as pencarian_mustahik
+    from db_mustahik_app.mustahik_perorangan mp;`,
+            (err, results) => {
+                if (err) throw err;
+                const data = req.session; // Mendapatkan data session
+                // console.error(results);
+                res.render('MustahikPerorangan/index', {
+                    title: 'Mustahik Perorangan',
+                    mustahik_perorangan: results,
+                    data: data.user,
+                    message: req.flash('message'),
+                    error: req.flash('error'),
+                    success: req.flash('success'),
+                });
+            }
+        );
     });
 
     // Tampilkan form tambah mustahik-perorangan
@@ -155,8 +183,8 @@ module.exports = function (app) {
                     req.flash('success', 'Tambah Mustahik Berhasil');
                     res.redirect('/mustahik-perorangan');
                 } else {
-                    console.error('result',result)
-                    res.redirect('/santunan/add_santunan/'+result.insertId);
+                    console.error('result', result);
+                    res.redirect('/santunan/add_santunan/' + result.insertId);
                 }
             }
         );
