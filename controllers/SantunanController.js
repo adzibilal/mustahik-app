@@ -24,17 +24,17 @@ module.exports = function (app) {
             mp.fullname as mustahik,
             p.program_name,
             p.program_category,
-            s.nominal 
+            s.nominal
            from santunan_perorangan s
            join master_program p on s.program_id = p.program_id
-           join mustahik_perorangan mp on s.mustahik_id = mp.mustahik_perorangan_id
+           left join mustahik_perorangan mp on s.mustahik_id = mp.mustahik_perorangan_id;
         `,
             (err, result) => {
                 if (err) {
                     console.log(err);
                     res.status(500).send('Internal Server Error');
                 } else {
-                    // console.log('result', result)
+                    console.log('result', result)
                     const data = req.session; // Mendapatkan data session
                     res.render('Santunan/index', {
                         santunan: result,

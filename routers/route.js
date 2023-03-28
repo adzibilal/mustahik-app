@@ -37,14 +37,13 @@ module.exports = function (app) {
                 const report1 = rows;
 
                 db.query(
-                    `select 
-                    p.program_name as program,
+                    `select p.program_name as program,
                     sum(s.nominal) as nominal,
                     ROUND((sum(s.nominal) / (select sum(s2.nominal) from santunan_perorangan s2)) * 100, 2) as persentasi
                     from santunan_perorangan s
                     join master_program p on s.program_id = p.program_id
-                    join mustahik_perorangan mp on s.mustahik_id = mp.mustahik_perorangan_id
-                    group by program_name;
+                    left join mustahik_perorangan mp on s.mustahik_id = mp.mustahik_perorangan_id
+                    group by p.program_name;
                 `,
                     function (err, rows, fields) {
                         if (err) throw err;
@@ -56,7 +55,7 @@ module.exports = function (app) {
                             `select concat(YEAR(s.created_at), ' - ', MONTH(s.created_at)) as YM, MONTHNAME(s.created_at) as month_name, sum(s.nominal) 
                             from santunan_perorangan s
                             join master_program p on s.program_id = p.program_id
-                            join mustahik_perorangan mp on s.mustahik_id = mp.mustahik_perorangan_id
+                            left  join mustahik_perorangan mp on s.mustahik_id = mp.mustahik_perorangan_id
                             group by YM;
                             `,
                             function (err, rows, fields) {
