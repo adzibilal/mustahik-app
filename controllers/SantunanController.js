@@ -56,7 +56,7 @@ module.exports = function (app) {
         db.query(
             'select mustahik_id, pencarian_mustahik from db_mustahik_app.view_mustahik_all',
             function (err, rows, fields) {
-                if (err) console.error(err);
+                if (err) console.log(err);
 
                 const mustahik = rows;
 
@@ -64,7 +64,7 @@ module.exports = function (app) {
                 db.query(
                     'SELECT * FROM master_program',
                     function (err, rows, fields) {
-                        if (err) console.error(err);
+                        if (err) console.log(err);
 
                         const program = rows;
 
@@ -94,7 +94,7 @@ module.exports = function (app) {
             db.query(
                 'select mustahik_id, pencarian_mustahik from db_mustahik_app.view_mustahik_all',
                 function (err, rows, fields) {
-                    if (err) console.error(err);
+                    if (err) console.log(err);
 
                     const mustahik = rows;
 
@@ -102,7 +102,7 @@ module.exports = function (app) {
                     db.query(
                         'SELECT * FROM master_program',
                         function (err, rows, fields) {
-                            if (err) console.error(err);
+                            if (err) console.log(err);
 
                             const program = rows;
 
@@ -165,7 +165,7 @@ module.exports = function (app) {
                     db.query(
                         'SELECT * FROM mustahik_perorangan',
                         function (err, rows, fields) {
-                            if (err) console.error(err);
+                            if (err) console.log(err);
 
                             const mustahik = rows;
 
@@ -173,7 +173,7 @@ module.exports = function (app) {
                             db.query(
                                 'SELECT * FROM master_program',
                                 function (err, rows, fields) {
-                                    if (err) console.error(err);
+                                    if (err) console.log(err);
 
                                     const program = rows;
                                     const data = req.session; // Mendapatkan data session
