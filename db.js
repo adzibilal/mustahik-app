@@ -18,7 +18,7 @@ const db = mysql.createConnection({
 // Terhubung ke database
 db.connect((err) => {
   if(err) {
-    throw err;
+    console.log(err);;
   }
   console.log('MySQL terhubung...');
 });
