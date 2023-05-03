@@ -23,7 +23,7 @@ module.exports = function (app) {
             'select * from loc_kota WHERE province_id = ?',
             [idProvinsi],
             (err, result) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 // console.log('result', result)
                 res.json(result);
             }
@@ -36,7 +36,7 @@ module.exports = function (app) {
             'select * from loc_kec WHERE regency_id = ?',
             [idKota],
             (err, result) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 // console.log('result', result)
                 res.json(result);
             }
@@ -49,7 +49,7 @@ module.exports = function (app) {
             'select * from loc_desa WHERE district_id = ?',
             [idKec],
             (err, result) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 // console.log('result', result)
                 res.json(result);
             }
@@ -87,7 +87,7 @@ module.exports = function (app) {
             ) as pencarian_mustahik
     from db_mustahik_app.mustahik_perorangan mp;`,
             (err, results) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 const data = req.session; // Mendapatkan data session
                 // console.error(results);
                 res.render('MustahikPerorangan/index', {
@@ -108,7 +108,7 @@ module.exports = function (app) {
         console.log('data', data);
 
         db.query('select * from loc_provinsi', (err, rows, fields) => {
-            if (err) throw err;
+            if (err) console.error(err);
 
             const provinsi = rows;
             res.render('MustahikPerorangan/add', {
@@ -178,7 +178,7 @@ module.exports = function (app) {
                 asnaf_mustahik,
             ],
             (err, result) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 if (wsantunan === '0') {
                     req.flash('success', 'Tambah Mustahik Berhasil');
                     res.redirect('/mustahik-perorangan');
@@ -198,7 +198,7 @@ module.exports = function (app) {
             'SELECT * FROM mustahik_perorangan WHERE mustahik_perorangan_id = ?',
             [id],
             (err, result) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 const data = req.session; // Mendapatkan data session
 
                 console.log('result', result);
@@ -257,7 +257,7 @@ module.exports = function (app) {
                 id,
             ],
             (err, result) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 req.flash('success', 'Update Mustahik Berhasil');
                 res.redirect('/mustahik-perorangan');
             }

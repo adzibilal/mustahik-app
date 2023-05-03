@@ -33,7 +33,7 @@ module.exports = function (app) {
             (select count(*) from db_mustahik_app.master_program) as jumlah_program
         `,
             (err, rows, field) => {
-                if (err) throw err;
+                if (err) console.error(err);
                 const report1 = rows;
 
                 db.query(
@@ -46,7 +46,7 @@ module.exports = function (app) {
                     group by p.program_name;
                 `,
                     function (err, rows, fields) {
-                        if (err) throw err;
+                        if (err) console.error(err);
 
                         const report2 = rows;
                         // console.log('report2', report2)
@@ -59,7 +59,7 @@ module.exports = function (app) {
                             group by YM;
                             `,
                             function (err, rows, fields) {
-                                if (err) throw err;
+                                if (err) console.error(err);
                                 const report3 = rows;
                                 // console.log('report3', report3);
 
@@ -67,7 +67,7 @@ module.exports = function (app) {
                                     `select provinsi,kota_kab, count(*) as jumlah_mustahik from mustahik_perorangan
                                     group by kota_kab;`,
                                     function (err, rows, fields) {
-                                        if (err) throw err;
+                                        if (err) console.error(err);
                                         const report4 = rows;
                                         const data = req.session; // Mendapatkan data session
                                         res.locals = {
